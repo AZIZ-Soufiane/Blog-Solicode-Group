@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component: Table (Preline)</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: { primary: { 600: '#2563eb', 700: '#1d4ed8' } }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-50 p-10 dark:bg-slate-900 font-sans">
+
+  <!-- Card -->
+  <div class="flex flex-col">
+    <div class="-m-1.5 overflow-x-auto">
+      <div class="p-1.5 min-w-full inline-block align-middle">
+        <div
+          class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
+
+          <!-- Header -->
+          <div
+            class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
+            <div>
+              <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                Articles
+              </h2>
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                Gérer les articles du blog.
+              </p>
+            </div>
+
+            <div class="inline-flex gap-x-2">
+              <!-- Search -->
+              <div class="relative">
+                <input type="text"
+                  class="py-2 px-3 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                  placeholder="Rechercher (maquette)">
+                <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4">
+                  <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
+                </div>
+              </div>
+
+              <!-- Category Filter Dropdown -->
+              <div class="hs-dropdown relative inline-block">
+                <button id="hs-dropdown-filter" type="button"
+                  class="hs-dropdown-toggle py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800">
+                  <i data-lucide="filter" class="w-4 h-4"></i>
+                  <span id="filterLabel">Filtre</span>
+                </button>
+
+                <div
+                  class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[10rem] bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-gray-800 dark:border dark:border-gray-700"
+                  aria-labelledby="hs-dropdown-filter">
+
+                  <span
+                    class="block py-2 px-3 text-xs font-medium uppercase text-gray-400 dark:text-gray-500">Par
+                    Catégorie</span>
+
+                  <!-- IMPORTANT: data-filter -->
+                  <a href="#" data-filter="all"
+                    class="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                    Toutes
+                  </a>
+                  <a href="#" data-filter="laravel"
+                    class="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                    Laravel
+                  </a>
+                  <a href="#" data-filter="php"
+                    class="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                    PHP
+                  </a>
+                  <a href="#" data-filter="android"
+                    class="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                    Android
+                  </a>
+                </div>
+              </div>
+
+              <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                href="#">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                Nouveau
+              </a>
+            </div>
+          </div>
+          <!-- End Header -->
+
+          <!-- Table -->
+          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead class="bg-gray-50 dark:bg-slate-800">
+              <tr>
+                <th scope="col" class="ps-6 py-3 text-start">
+                  <label for="hs-at-with-checkboxes-main" class="flex">
+                    <input type="checkbox"
+                      class="shrink-0 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                      id="hs-at-with-checkboxes-main">
+                    <span class="sr-only">Checkbox</span>
+                  </label>
+                </th>
+                <th scope="col" class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3 text-start">
+                  <div class="flex items-center gap-x-2">
+                    <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                      Article
+                    </span>
+                  </div>
+                </th>
+                <th scope="col" class="px-6 py-3 text-start">
+                  <div class="flex items-center gap-x-2">
+                    <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                      Auteur
+                    </span>
+                  </div>
+                </th>
+                <th scope="col" class="px-6 py-3 text-start">
+                  <div class="flex items-center gap-x-2">
+                    <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                      Catégorie
+                    </span>
+                  </div>
+                </th>
+                <th scope="col" class="px-6 py-3 text-start">
+                  <div class="flex items-center gap-x-2">
+                    <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                      Statut
+                    </span>
+                  </div>
+                </th>
+                <th scope="col" class="px-6 py-3 text-start">
+                  <div class="flex items-center gap-x-2">
+                    <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                      Date
+                    </span>
+                  </div>
+                </th>
+                <th scope="col" class="px-6 py-3 text-end"></th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700" id="articlesTbody">
+
+              <!-- Item 1 -->
+              <tr data-category="laravel"
+                class="group hover:bg-gray-50 dark:hover:bg-slate-800/10 transition-colors">
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="ps-6 py-3">
+                    <label for="hs-at-with-checkboxes-1" class="flex">
+                      <input type="checkbox"
+                        class="shrink-0 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                        id="hs-at-with-checkboxes-1">
+                      <span class="sr-only">Checkbox</span>
+                    </label>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                    <div class="flex items-center gap-x-3">
+                      <img class="inline-block h-[2.375rem] w-[2.375rem] rounded-lg object-cover"
+                        src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2680&q=80"
+                        alt="Image Description">
+                      <div class="grow">
+                        <span class="block text-sm font-semibold text-gray-800 dark:text-gray-200">
+                          Introduction à Laravel 11
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-3">
+                    <div class="flex items-center gap-x-2">
+                      <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-gray-800"
+                        src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
+                        alt="Author">
+                      <span class="text-sm text-gray-600 dark:text-gray-400">James Collins</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-3">
+                    <span
+                      class="inline-flex items-center gap-1.5 py-0.5 px-2.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300">
+                      Laravel
+                    </span>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-3">
+                    <span
+                      class="inline-flex items-center gap-1.5 py-0.5 px-2 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                      Publié
+                    </span>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-3">
+                    <span class="text-sm text-gray-500">20 Dec 2024</span>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-1.5">
+                    <!-- Inline Actions -->
+                    <div class="inline-flex gap-x-2">
+                      <button type="button"
+                        class="py-2 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-blue-500"
+                        title="Voir">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                      </button>
+                      <button type="button"
+                        class="py-2 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-blue-500"
+                        title="Éditer">
+                        <i data-lucide="edit-2" class="w-4 h-4"></i>
+                      </button>
+                      <button type="button"
+                        class="py-2 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-red-500"
+                        title="Supprimer">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Item 2 -->
+              <tr data-category="php"
+                class="group hover:bg-gray-50 dark:hover:bg-slate-800/10 transition-colors">
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="ps-6 py-3">
+                    <label for="hs-at-with-checkboxes-2" class="flex">
+                      <input type="checkbox"
+                        class="shrink-0 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                        id="hs-at-with-checkboxes-2">
+                      <span class="sr-only">Checkbox</span>
+                    </label>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                    <div class="flex items-center gap-x-3">
+                      <div class="inline-block h-[2.375rem] w-[2.375rem] rounded-lg bg-gray-100 dark:bg-slate-800">
+                      </div>
+                      <div class="grow">
+                        <span class="block text-sm font-semibold text-gray-800 dark:text-gray-200">
+                          POO en PHP : fondamentaux
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-3">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Sara Benali</span>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-3">
+                    <span
+                      class="inline-flex items-center gap-1.5 py-0.5 px-2.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200">
+                      PHP
+                    </span>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-3">
+                    <span
+                      class="inline-flex items-center gap-1.5 py-0.5 px-2 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200">
+                      Brouillon
+                    </span>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-3">
+                    <span class="text-sm text-gray-500">05 Jan 2025</span>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-1.5">
+                    <div class="inline-flex gap-x-2">
+                      <button type="button"
+                        class="py-2 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-blue-500"
+                        title="Voir">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                      </button>
+                      <button type="button"
+                        class="py-2 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-blue-500"
+                        title="Éditer">
+                        <i data-lucide="edit-2" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Item 3 -->
+              <tr data-category="android"
+                class="group hover:bg-gray-50 dark:hover:bg-slate-800/10 transition-colors">
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="ps-6 py-3">
+                    <label for="hs-at-with-checkboxes-3" class="flex">
+                      <input type="checkbox"
+                        class="shrink-0 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                        id="hs-at-with-checkboxes-3">
+                      <span class="sr-only">Checkbox</span>
+                    </label>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                    <div class="flex items-center gap-x-3">
+                      <div class="inline-block h-[2.375rem] w-[2.375rem] rounded-lg bg-gray-100 dark:bg-slate-800">
+                      </div>
+                      <div class="grow">
+                        <span class="block text-sm font-semibold text-gray-800 dark:text-gray-200">
+                          Jetpack Compose : Navigation
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-3">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Omar El Idrissi</span>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-3">
+                    <span
+                      class="inline-flex items-center gap-1.5 py-0.5 px-2.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200">
+                      Android
+                    </span>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-3">
+                    <span
+                      class="inline-flex items-center gap-1.5 py-0.5 px-2 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                      Publié
+                    </span>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-3">
+                    <span class="text-sm text-gray-500">18 Feb 2025</span>
+                  </div>
+                </td>
+                <td class="h-px w-px whitespace-nowrap">
+                  <div class="px-6 py-1.5">
+                    <div class="inline-flex gap-x-2">
+                      <button type="button"
+                        class="py-2 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-blue-500"
+                        title="Voir">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                      </button>
+                      <button type="button"
+                        class="py-2 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-blue-500"
+                        title="Éditer">
+                        <i data-lucide="edit-2" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+          <!-- End Table -->
+
+          <!-- Footer -->
+          <div
+            class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 dark:border-gray-700">
+            <div>
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                <span class="font-semibold text-gray-800 dark:text-gray-200" id="resultsCount">3</span> résultats
+              </p>
+            </div>
+            <div>
+              <div class="inline-flex gap-x-2">
+                <button type="button"
+                  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800">
+                  <i data-lucide="chevron-left" class="w-4 h-4"></i> Précédent
+                </button>
+                <button type="button"
+                  class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800">
+                  Suivant <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- End Footer -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Card -->
+
+  <!-- Preline UI JS -->
+  <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.js"></script>
+
+  <script>
+    lucide.createIcons();
+
+    // Preline init
+    window.addEventListener('load', () => {
+      if (typeof HSStaticMethods !== 'undefined') HSStaticMethods.autoInit();
+    });
+  </script>
+
+  <!-- ✅ FILTER SCRIPT (WORKING) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropdownBtn = document.getElementById('hs-dropdown-filter');
+      const filterLabel = document.getElementById('filterLabel');
+
+      // menu lié au bouton
+      const menu = document.querySelector('.hs-dropdown-menu[aria-labelledby="hs-dropdown-filter"]');
+
+      const tbody = document.getElementById('articlesTbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+
+      const resultsCount = document.getElementById('resultsCount');
+
+      function applyFilter(category) {
+        let visible = 0;
+        rows.forEach(row => {
+          const rowCat = (row.dataset.category || '').toLowerCase();
+          const show = category === 'all' || rowCat === category;
+          row.style.display = show ? '' : 'none';
+          if (show) visible++;
+        });
+
+        if (resultsCount) resultsCount.textContent = String(visible);
+
+        if (filterLabel) {
+          filterLabel.textContent = category === 'all'
+            ? 'Filtre'
+            : `Filtre: ${category.toUpperCase()}`;
+        }
+      }
+
+      // Event delegation: clic sur <a> ou sur le texte dedans => OK
+      menu.addEventListener('click', (e) => {
+        const link = e.target.closest('a[data-filter]');
+        if (!link) return;
+
+        e.preventDefault();
+        const category = (link.dataset.filter || 'all').toLowerCase();
+        applyFilter(category);
+      });
+
+      // init
+      applyFilter('all');
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Component: Table Content (Preline)</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: { primary: { 600: '#2563eb', 700: '#1d4ed8' } }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-50 p-10 dark:bg-slate-900 font-sans">
+
+  <!-- Demo Card -->
+  <div class="max-w-5xl mx-auto">
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
+      <!-- Content ONLY -->
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-slate-800">
+          <tr>
+            <th scope="col" class="ps-6 py-3 text-start">
+              <label class="flex">
+                <input type="checkbox"
+                  class="shrink-0 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                <span class="sr-only">Checkbox</span>
+              </label>
+            </th>
+
+            <th scope="col" class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3 text-start">
+              <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">Article</span>
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-start">
+              <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">Auteur</span>
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-start">
+              <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">Catégorie</span>
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-start">
+              <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">Statut</span>
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-start">
+              <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">Date</span>
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-end"></th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+          <!-- Row 1 -->
+          <tr data-category="laravel" class="group hover:bg-gray-50 dark:hover:bg-slate-800/10 transition-colors">
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="ps-6 py-3">
+                <label class="flex">
+                  <input type="checkbox"
+                    class="shrink-0 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500">
+                  <span class="sr-only">Checkbox</span>
+                </label>
+              </div>
+            </td>
+
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                <div class="flex items-center gap-x-3">
+                  <img class="inline-block h-[2.375rem] w-[2.375rem] rounded-lg object-cover"
+                    src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+                    alt="Image">
+                  <div class="grow">
+                    <span class="block text-sm font-semibold text-gray-800 dark:text-gray-200">
+                      Introduction à Laravel 11
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="text-sm text-gray-600 dark:text-gray-400">James Collins</span>
+              </div>
+            </td>
+
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="inline-flex items-center py-0.5 px-2.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300">
+                  Laravel
+                </span>
+              </div>
+            </td>
+
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="inline-flex items-center py-0.5 px-2 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                  Publié
+                </span>
+              </div>
+            </td>
+
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="text-sm text-gray-500">20 Dec 2024</span>
+              </div>
+            </td>
+
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="px-6 py-1.5">
+                <div class="inline-flex gap-x-2">
+                  <button type="button"
+                    class="py-2 px-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-blue-600 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-blue-500"
+                    title="Voir">
+                    <i data-lucide="eye" class="w-4 h-4"></i>
+                  </button>
+                  <button type="button"
+                    class="py-2 px-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-blue-600 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-blue-500"
+                    title="Éditer">
+                    <i data-lucide="edit-2" class="w-4 h-4"></i>
+                  </button>
+                  <button type="button"
+                    class="py-2 px-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-red-600 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-red-500"
+                    title="Supprimer">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 2 -->
+          <tr data-category="php" class="group hover:bg-gray-50 dark:hover:bg-slate-800/10 transition-colors">
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="ps-6 py-3">
+                <label class="flex">
+                  <input type="checkbox"
+                    class="shrink-0 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500">
+                  <span class="sr-only">Checkbox</span>
+                </label>
+              </div>
+            </td>
+
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="ps-6 lg:ps-3 xl:ps-0 pe-6 py-3">
+                <span class="block text-sm font-semibold text-gray-800 dark:text-gray-200">POO en PHP : fondamentaux</span>
+              </div>
+            </td>
+
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Sara Benali</span>
+              </div>
+            </td>
+
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="inline-flex items-center py-0.5 px-2.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200">
+                  PHP
+                </span>
+              </div>
+            </td>
+
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="inline-flex items-center py-0.5 px-2 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200">
+                  Brouillon
+                </span>
+              </div>
+            </td>
+
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="px-6 py-3">
+                <span class="text-sm text-gray-500">05 Jan 2025</span>
+              </div>
+            </td>
+
+            <td class="h-px w-px whitespace-nowrap">
+              <div class="px-6 py-1.5">
+                <div class="inline-flex gap-x-2">
+                  <button type="button" class="py-2 px-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800" title="Voir">
+                    <i data-lucide="eye" class="w-4 h-4"></i>
+                  </button>
+                  <button type="button" class="py-2 px-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800" title="Éditer">
+                    <i data-lucide="edit-2" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Petit placeholder -->
+      <div class="px-6 py-4 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700">
+        Page de démonstration du composant <code class="px-1 py-0.5 rounded bg-gray-100 dark:bg-slate-800">data/table-content.html</code>.
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.js"></script>
+  <script>
+    lucide.createIcons();
+    window.addEventListener('load', () => {
+      if (typeof HSStaticMethods !== 'undefined') HSStaticMethods.autoInit();
+    });
+  </script>
+
+</body>
+
+</html>

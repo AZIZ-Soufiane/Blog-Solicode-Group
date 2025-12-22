@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component: KPI Card</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-gray-50 p-10 dark:bg-slate-900">
+
+    <!-- Grid Layout for KPI Cards: Premium UI (Soft) -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+
+        <!-- KPI 1: Articles -->
+        <div
+            class="group flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500">Articles</h3>
+                    <p class="mt-1 text-3xl font-extrabold text-gray-800 dark:text-gray-200">124</p>
+                </div>
+                <div
+                    class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl shadow-lg shadow-blue-500/30 text-white">
+                    <i data-lucide="file-text" class="w-6 h-6"></i>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center text-sm">
+                <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Total publiés sur la
+                    plateforme</span>
+            </div>
+        </div>
+
+        <!-- KPI 2: Vues -->
+        <div
+            class="group flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500">Vues Totales
+                    </h3>
+                    <p class="mt-1 text-3xl font-extrabold text-gray-800 dark:text-gray-200">54.2k</p>
+                </div>
+                <div
+                    class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl shadow-lg shadow-emerald-500/30 text-white">
+                    <i data-lucide="eye" class="w-6 h-6"></i>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center gap-x-1.5">
+                <span
+                    class="inline-flex items-center gap-x-1 py-0.5 px-2 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-800/30 dark:text-emerald-500 text-xs font-bold">
+                    <i data-lucide="trending-up" class="w-3 h-3"></i> +12.5%
+                </span>
+                <span class="text-xs text-gray-400">depuis le mois dernier</span>
+            </div>
+        </div>
+
+        <!-- KPI 3: Utilisateurs -->
+        <div
+            class="group flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500">Utilisateurs
+                    </h3>
+                    <p class="mt-1 text-3xl font-extrabold text-gray-800 dark:text-gray-200">8</p>
+                </div>
+                <div
+                    class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-purple-400 to-fuchsia-500 rounded-2xl shadow-lg shadow-purple-500/30 text-white">
+                    <i data-lucide="users" class="w-6 h-6"></i>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center text-sm">
+                <span
+                    class="inline-flex items-center gap-x-1 py-0.5 px-2 rounded-full bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-white text-xs font-medium">
+                    2 Admins
+                </span>
+                <span class="ml-2 text-xs text-gray-400">6 Auteurs</span>
+            </div>
+        </div>
+
+        <!-- KPI 4: Commentaires -->
+        <div
+            class="group flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500">Commentaires
+                    </h3>
+                    <p class="mt-1 text-3xl font-extrabold text-gray-800 dark:text-gray-200">312</p>
+                </div>
+                <!-- Softened Orange: Amber to Orange -->
+                <div
+                    class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl shadow-lg shadow-orange-500/30 text-white">
+                    <i data-lucide="message-square" class="w-6 h-6"></i>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center gap-x-1.5">
+                <span
+                    class="inline-flex items-center gap-x-1 py-0.5 px-2 rounded-full bg-orange-100 text-orange-800 dark:bg-orange-800/30 dark:text-orange-500 text-xs font-bold">
+                    2 nouveaux
+                </span>
+                <span class="text-xs text-gray-400">à modérer</span>
+            </div>
+        </div>
+    </div>
+    <!-- End Grid -->
+
+    <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Component: Table Footer (Preline)</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: { primary: { 600: '#2563eb', 700: '#1d4ed8' } }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-50 p-10 dark:bg-slate-900 font-sans">
+
+  <!-- Demo Card -->
+  <div class="max-w-5xl mx-auto">
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
+      <!-- Petit placeholder haut -->
+      <div class="p-6 text-sm text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
+        Page de démonstration du composant <code class="px-1 py-0.5 rounded bg-gray-100 dark:bg-slate-800">data/table-footer.html</code>.
+      </div>
+
+      <!-- Footer ONLY -->
+      <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 dark:border-gray-700">
+        <div>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            <span class="font-semibold text-gray-800 dark:text-gray-200">12</span> résultats
+          </p>
+        </div>
+
+        <div>
+          <div class="inline-flex gap-x-2">
+            <button type="button"
+              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+              Précédent
+            </button>
+
+            <button type="button"
+              class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800">
+              Suivant
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.js"></script>
+  <script>
+    lucide.createIcons();
+    window.addEventListener('load', () => {
+      if (typeof HSStaticMethods !== 'undefined') HSStaticMethods.autoInit();
+    });
+  </script>
+
+</body>
+
+</html>

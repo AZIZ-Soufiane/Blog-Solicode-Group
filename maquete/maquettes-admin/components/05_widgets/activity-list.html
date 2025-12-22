@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component: Activity List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-gray-50 p-10 dark:bg-slate-900">
+
+    <!-- Activity List Widget -->
+    <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 max-w-sm">
+        <div class="p-4 md:p-5">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">
+                Activité Récente
+            </h3>
+
+            <!-- Timeline -->
+            <div>
+                <!-- Item -->
+                <div class="flex gap-x-3">
+                    <div
+                        class="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-gray-700">
+                        <div class="relative z-10 w-7 h-7 flex justify-center items-center">
+                            <div class="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-600"></div>
+                        </div>
+                    </div>
+                    <div class="grow pt-0.5 pb-8">
+                        <h3 class="flex gap-x-1.5 font-semibold text-gray-800 dark:text-white">
+                            <i data-lucide="file-plus" class="w-4 h-4 text-blue-600 mt-1"></i>
+                            Article publié
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                            Vous avez publié "Les bases de PHP".
+                        </p>
+                        <button type="button"
+                            class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700">
+                            Il y a 2 min
+                        </button>
+                    </div>
+                </div>
+                <!-- End Item -->
+
+                <!-- Item -->
+                <div class="flex gap-x-3">
+                    <div
+                        class="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-gray-700">
+                        <div class="relative z-10 w-7 h-7 flex justify-center items-center">
+                            <div class="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-600"></div>
+                        </div>
+                    </div>
+                    <div class="grow pt-0.5 pb-8">
+                        <h3 class="flex gap-x-1.5 font-semibold text-gray-800 dark:text-white">
+                            <i data-lucide="message-circle" class="w-4 h-4 text-green-600 mt-1"></i>
+                            Nouveau commentaire
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                            <strong>Alice</strong> a commenté "Tuto Laravel".
+                        </p>
+                        <button type="button"
+                            class="mt-1 -ms-1 p-1 inline-flex items-center gap-x-2 text-xs rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700">
+                            Il y a 1 heure
+                        </button>
+                    </div>
+                </div>
+                <!-- End Item -->
+            </div>
+            <!-- End Timeline -->
+        </div>
+    </div>
+    <!-- End Activity List Widget -->
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

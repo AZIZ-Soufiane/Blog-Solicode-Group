@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component: Recent Articles Widget</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-gray-50 p-10 dark:bg-slate-900">
+
+    <!-- Recent Articles Widget: Premium UI -->
+    <div
+        class="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700">
+        <!-- Header -->
+        <div class="px-6 py-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-800">
+            <div>
+                <h2 class="text-lg font-bold text-gray-800 dark:text-gray-200">
+                    Derniers Articles
+                </h2>
+            </div>
+            <a href="../articles/index.html"
+                class="text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                Voir tout
+            </a>
+        </div>
+        <!-- End Header -->
+
+        <!-- Table -->
+        <div class="p-2 overflow-x-auto">
+            <table class="min-w-full">
+                <!-- No visible table header for minimalist look, or very subtle -->
+                <thead class="hidden">
+                    <tr>
+                        <th class="px-4 py-2 text-left">Article</th>
+                        <th class="px-4 py-2 text-left">Date</th>
+                        <th class="px-4 py-2 text-left">Statut</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                    <!-- Item 1 -->
+                    <tr class="group hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors rounded-lg">
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <div class="flex items-center gap-x-3">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-xl">
+                                    🚀
+                                </div>
+                                <div class="grow">
+                                    <span
+                                        class="block text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-blue-600 transition-colors">Les
+                                        nouveautés de Laravel 10</span>
+                                    <span class="block text-xs text-gray-500">Par John Doe</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <span class="text-xs text-gray-500 dark:text-gray-400">23 Avr 2023</span>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-end">
+                            <span
+                                class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
+                                <span
+                                    class="w-1.5 h-1.5 inline-block rounded-full bg-emerald-600 dark:bg-emerald-400"></span>
+                                Publié
+                            </span>
+                        </td>
+                    </tr>
+
+                    <!-- Item 2 -->
+                    <tr class="group hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors rounded-lg">
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <div class="flex items-center gap-x-3">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-xl">
+                                    🎨
+                                </div>
+                                <div class="grow">
+                                    <span
+                                        class="block text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-blue-600 transition-colors">Introduction
+                                        à Tailwind CSS</span>
+                                    <span class="block text-xs text-gray-500">Par Jane Smith</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <span class="text-xs text-gray-500 dark:text-gray-400">22 Avr 2023</span>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-end">
+                            <span
+                                class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-400">
+                                <span class="w-1.5 h-1.5 inline-block rounded-full bg-gray-500 dark:bg-gray-400"></span>
+                                Brouillon
+                            </span>
+                        </td>
+                    </tr>
+
+                    <!-- Item 3 -->
+                    <tr class="group hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors rounded-lg">
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <div class="flex items-center gap-x-3">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-xl">
+                                    🔧
+                                </div>
+                                <div class="grow">
+                                    <span
+                                        class="block text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-blue-600 transition-colors">Maintenance
+                                        Serveur</span>
+                                    <span class="block text-xs text-gray-500">Par Admin</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <span class="text-xs text-gray-500 dark:text-gray-400">21 Avr 2023</span>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-end">
+                            <span
+                                class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400">
+                                <span
+                                    class="w-1.5 h-1.5 inline-block rounded-full bg-amber-600 dark:bg-amber-400"></span>
+                                Révision
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- End Table -->
+    </div>
+    <!-- End Card -->
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

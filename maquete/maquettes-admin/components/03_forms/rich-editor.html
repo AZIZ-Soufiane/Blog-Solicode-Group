@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component: Rich Editor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-gray-50 p-10 dark:bg-slate-900">
+
+    <!-- Rich Editor (Simplified Mockup) -->
+    <div
+        class="max-w-2xl w-full bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
+        <!-- Toolbar -->
+        <div
+            class="flex items-center gap-x-1 p-2 border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-slate-800">
+            <button type="button"
+                class="p-2 inline-flex justify-center items-center gap-x-2 rounded-lg hover:bg-white text-gray-800 shadow-sm hover:shadow dark:text-gray-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm">
+                <i data-lucide="bold" class="w-4 h-4"></i>
+            </button>
+            <button type="button"
+                class="p-2 inline-flex justify-center items-center gap-x-2 rounded-lg hover:bg-white text-gray-800 shadow-sm hover:shadow dark:text-gray-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm">
+                <i data-lucide="italic" class="w-4 h-4"></i>
+            </button>
+            <button type="button"
+                class="p-2 inline-flex justify-center items-center gap-x-2 rounded-lg hover:bg-white text-gray-800 shadow-sm hover:shadow dark:text-gray-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm">
+                <i data-lucide="underline" class="w-4 h-4"></i>
+            </button>
+            <div class="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1"></div>
+            <button type="button"
+                class="p-2 inline-flex justify-center items-center gap-x-2 rounded-lg hover:bg-white text-gray-800 shadow-sm hover:shadow dark:text-gray-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm">
+                <i data-lucide="list" class="w-4 h-4"></i>
+            </button>
+            <button type="button"
+                class="p-2 inline-flex justify-center items-center gap-x-2 rounded-lg hover:bg-white text-gray-800 shadow-sm hover:shadow dark:text-gray-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm">
+                <i data-lucide="link" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <!-- Content Area -->
+        <div class="p-4 h-64 overflow-y-auto" contenteditable="true">
+            <p class="text-gray-800 dark:text-gray-200">
+                Commencez à écrire votre article ici...
+            </p>
+        </div>
+    </div>
+    <!-- End Rich Editor -->
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

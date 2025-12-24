@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\DashboardstatsTrait; 
+namespace App\Traits\dashboardstatsTrait; 
 
 trait ActivityTrait
 {

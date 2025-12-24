@@ -17,7 +17,16 @@ npm install
 npm install preline
 npm install lucide
 ```
+## This copies .env to .env.example in the same folder
+```bash
+copy .env .env.example
 
+```
+
+## Generate application key
+```bash
+php artisan key:generate
+```
 ---
 
 ## Environment Configuration
@@ -90,6 +99,17 @@ Run the migrations:
 ```bash
 php artisan migrate
 ```
-
+## Compile frontend assets
+```bash
+npm run dev
+```
+## For production build, use
+```bash
+npm run build
+```
+## Start Laravel server
+```bash
+php artisan serve
+```
 ---
 

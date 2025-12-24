@@ -4,7 +4,7 @@
                     <div
                         class="px-6 py-4 flex justify-between items-center border-b border-gray-100">
                         <h2 class="text-lg font-bold text-gray-800">Derniers Articles</h2>
-                        <a href="articles/index.html"
+                        <a href="{{ Route('articles.search')}}"
                             class="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors">Voir
                             tout</a>
                     </div>

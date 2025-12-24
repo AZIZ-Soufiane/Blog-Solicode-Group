@@ -1,5 +1,5 @@
 import './bootstrap';
-
+import './dashboard'
 import "preline";
 import { createIcons, icons } from "lucide";
 

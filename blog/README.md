@@ -14,6 +14,8 @@
 ```bash
 composer install
 npm install
+npm install preline
+npm install lucide
 ```
 
 ---

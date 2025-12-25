@@ -3,13 +3,17 @@
 namespace App\Services;
 
 use App\Models\Article;
+
+use App\Services\Traits\CommentsTrait;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use App\Services\Traits\BaseServiceTrait;
+use App\Services\CommentsService;
 
 class ArticleService
 {
     use BaseServiceTrait;
+    use CommentsTrait;
 
     /**
      * Get featured article for homepage
@@ -128,5 +132,96 @@ class ArticleService
     {
         $article->increment('view_count');
     }
+
+ /**
+     * start :  parte admin dashboard stats
+     */
+
+    public function recentActivity(int $limit = 4): array
+    {
+        $activities = [];
+
+        foreach ($this->latestArticles($limit) as $article) {
+            $activities[] = [
+                'type' => 'article',
+                'title' => 'Article publié',
+                'message' => 'Vous avez publié "' . $article->title . '".',
+                'user' => $article->user->name ?? 'Auteur inconnu',
+                'time' => $article->created_at->diffForHumans(),
+            ];
+        }
+
+        foreach ($this->latestComments($limit) as $comment) {
+            $activities[] = [
+                'type' => 'comment',
+                'title' => 'Nouveau commentaire',
+                'message' => ($comment->user->name ?? 'Un utilisateur') . ' a commenté "' . ($comment->article->title ?? '') . '".',
+                'user' => $comment->user->name ?? 'Utilisateur inconnu',
+                'time' => $comment->created_at->diffForHumans(),
+            ];
+        }
+
+        usort($activities, fn($a, $b) => strtotime($b['time']) - strtotime($a['time']));
+
+        return array_slice($activities, 0, $limit);
+    }
+
+    public function totalArticles()
+    {
+        return Article::count();
+    }
+
+    public function publishedArticles()
+    {
+        return Article::where('status', 'published')->count();
+    }
+
+    public function totalViews()
+    {
+        $views = Article::sum('view_count');
+
+        if ($views >= 1000000) {
+            $views = round($views / 1000000, 1) . 'M'; 
+        } elseif ($views >= 1000) {
+            $views = round($views / 1000, 1) . 'k';   
+        }
+
+        return $views;
+    }
+
+    public function thisMonthViewsPercentage(): float
+    {
+        $now = now();
+        $currentMonthStart = $now->copy()->startOfMonth();
+
+
+        $totalViews = Article::sum('view_count');
+
+        if ($totalViews <= 0) {
+            return 0;
+        }
+
+        // Views this month
+        $currentMonthViews = Article::where('created_at', '>=', $currentMonthStart)
+            ->sum('view_count');
+
+        // Percentage calculation
+        $percentage = ($currentMonthViews / $totalViews) * 100;
+
+        return round($percentage, 2);
+    }
+
+    public function latestArticles(int $limit = 5)
+    {
+        return Article::with('user')
+            ->latest()
+            ->take($limit)
+            ->get();
+    }
+
+/**
+     * end :  parte admin dashboard stats
+     */
+
 }
 

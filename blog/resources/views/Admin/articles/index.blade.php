@@ -17,272 +17,142 @@
         </div>
     @endif
 
-        <!-- Articles Table -->
-    <div class="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700">
+    <!-- Articles Table -->
+    <div class="bg-white border border-gray-200 shadow-sm rounded-xl">
       <div class="p-4 overflow-x-auto">
-        <div class="flex flex-wrap items-center mb-4 gap-4 justify-end">
-          <div>
+        
+        <!-- Filter Form -->
+        <form method="GET" action="{{ route('admin.articles.index') }}" class="flex flex-wrap items-center mb-4 gap-4 justify-end">
+          
+          <!-- Search -->
+          <div class="flex-1 min-w-[200px]">
             <label class="sr-only" for="articleSearch">Rechercher</label>
-            <input id="articleSearch" type="text" placeholder="Rechercher par titre..."
-              class="py-2 px-4 pr-8 block w-full bg-white border border-gray-200 text-gray-800 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400">
-          </div>
-          <!-- Categories Custom Dropdown -->
-          <div id="categoriesDropdown" class="relative inline-block text-left">
-            <button type="button"
-              class="inline-flex justify-between items-center w-full sm:w-56 py-2 px-4 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-slate-800">
-              <span class="truncate">Toutes les catégories</span>
-              <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500"></i>
-            </button>
-
-            <div
-              class="hidden absolute top-full left-0 sm:left-auto sm:right-0 mt-2 w-56 bg-white sm:shadow-xl rounded-lg p-2 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-              style="z-index: 9999;">
-
-              <!-- Toutes catégories (Reset option) -->
-
-
-              <!-- Laravel -->
-              <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors"
-                href="?category=laravel">
-                <svg class="w-4 h-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <path d="m12 19 7-7 3 3-7 7-3-3z" />
-                  <path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
-                  <path d="m2 2 7.586 7.586" />
-                  <circle cx="11" cy="11" r="2" />
-                </svg>
-                Laravel
-              </a>
-
-              <!-- PHP -->
-              <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors"
-                href="?category=php">
-                <svg class="w-4 h-4 text-indigo-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
-                  <path d="M8.5 8.5v.01" />
-                  <path d="M16 12v.01" />
-                  <path d="M12 16v.01" />
-                </svg>
-                PHP
-              </a>
-
-              <!-- Android -->
-              <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors"
-                href="?category=android">
-                <svg class="w-4 h-4 text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
-                  <path d="M12 18h.01" />
-                </svg>
-                Android
-              </a>
-
-              <!-- Design -->
-              <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors"
-                href="?category=design">
-                <svg class="w-4 h-4 text-pink-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <path
-                    d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z" />
-                  <path d="m14 7 3 3" />
-                  <path d="M5 6v4" />
-                  <path d="M19 14v4" />
-                  <path d="M10 2v2" />
-                  <path d="M7 8H3" />
-                  <path d="M21 16h-4" />
-                  <path d="M11 3H9" />
-                </svg>
-                Design
-              </a>
-
-              <!-- Éducation -->
-              <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors"
-                href="?category=education">
-                <svg class="w-4 h-4 text-amber-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                  <path d="M6 12v5c3 3 9 3 12 0v-5" />
-                </svg>
-                Éducation
-              </a>
-
-              <!-- Activités -->
-              <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors"
-                href="?category=activities">
-                <svg class="w-4 h-4 text-cyan-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.71-2.16 0-3" />
-                  <path d="m2.3 2.3 7.2 7.2" />
-                  <path d="m14 11 9-9" />
-                  <path d="m9 14-7 9" />
-                  <path d="m21.7 21.7-7.2-7.2" />
-                  <path d="M11 14c-1.26 1.5-5 2-5 2s.5-3.74 2-5c.84-.71 2.16-.71 3 0" />
-                  <path d="M13 10c1.26-1.5 5-2 5-2s-.5 3.74-2 5c-.84.71-2.16.71-3 0" />
-                </svg>
-                Activités
-              </a>
-            </div>
+            <input id="articleSearch" type="text" name="search" value="{{ request('search') }}" placeholder="Rechercher par titre..."
+              class="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
           </div>
 
-          <!-- Status Custom Dropdown -->
-          <div id="statusDropdown" class="relative inline-block text-left">
-            <button type="button"
-              class="inline-flex justify-between items-center w-full sm:w-56 py-2 px-4 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-slate-800">
-              <span class="truncate">Tous les statuts</span>
-              <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500"></i>
-            </button>
-
-            <div
-              class="hidden absolute top-full left-0 sm:left-auto sm:right-0 mt-2 w-56 bg-white sm:shadow-xl rounded-lg p-2 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-              style="z-index: 9999;">
-
-              <!-- Tous statuts (Reset) -->
-
-
-              <!-- Publié -->
-              <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors"
-                href="#">
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-green-500"></i>
-                Publié
-              </a>
-
-              <!-- Brouillon -->
-              <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors"
-                href="#">
-                <i data-lucide="file-edit" class="w-4 h-4 text-gray-500"></i>
-                Brouillon
-              </a>
-
-              <!-- Archivé -->
-              <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm font-medium text-gray-800 hover:bg-blue-50 hover:text-blue-600 dark:text-gray-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors"
-                href="#">
-                <i data-lucide="archive" class="w-4 h-4 text-red-500"></i>
-                Archivé
-              </a>
-            </div>
+          <!-- Categories Dropdown (Preline UI) -->
+          <div class="relative min-w-[200px]">
+             <select name="category" data-hs-select='{
+                "placeholder": "Toutes les catégories",
+                "toggleTag": "<button type=\"button\"></button>",
+                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-400 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1]",
+                "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
+                "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100",
+                "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-blue-600\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
+                "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+             }' class="hidden">
+                <option value="">Toutes les catégories</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->slug }}" {{ request('category') == $category->slug ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+             </select>
           </div>
-        </div>
 
-        <table id="articlesTable" class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <!-- Status Dropdown -->
+          <div class="relative min-w-[200px]">
+             <select name="status" class="py-3 px-4 pe-9 block w-full border border-gray-400 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
+                <option value="">Tous les statuts</option>
+                <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Publié</option>
+                <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Brouillon</option>
+                <option value="archived" {{ request('status') == 'archived' ? 'selected' : '' }}>Archivé</option>
+             </select>
+          </div>
+
+          <div>
+              <button type="submit" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                Filtrer
+              </button>
+          </div>
+        </form>
+
+        <table id="articlesTable" class="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
-
-              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                ARTICLE</th>
-              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                AUTEUR</th>
-              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                CATÉGORIE</th>
-              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                STATUT</th>
-              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                DATE DE CRÉATION</th>
-              <th scope="col" class="px-3 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions</th>
+              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ARTICLE</th>
+              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">AUTEUR</th>
+              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CATÉGORIE</th>
+              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">STATUT</th>
+              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DATE DE CRÉATION</th>
+              <th scope="col" class="px-3 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-            <!-- Row 1 -->
-            <tr class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
+          <tbody class="divide-y divide-gray-100">
+            @forelse($articles as $article)
+            <tr class="hover:bg-gray-50 transition-colors">
               <td class="px-3 py-4 whitespace-nowrap">
                 <div class="flex items-center gap-3">
-
-                  <div class="text-sm font-medium text-gray-900 dark:text-white">Solicode Tangier: Empowering Youth...
-                  </div>
+                  <div class="text-sm font-medium text-gray-900">{{ Str::limit($article->title, 40) }}</div>
                 </div>
               </td>
               <td class="px-3 py-4 whitespace-nowrap">
                 <div class="flex items-center gap-2">
-                  <div
-                    class="h-6 w-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs font-bold">
-                    AF
+                  <div class="h-6 w-6 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center text-xs font-bold">
+                    {{ substr($article->user->name ?? '?', 0, 2) }}
                   </div>
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Ayoub Faqihi</span>
+                  <span class="text-sm text-gray-600">{{ $article->user->name ?? 'Inconnu' }}</span>
                 </div>
               </td>
               <td class="px-3 py-4 whitespace-nowrap">
-                <span
-                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-slate-800 dark:text-gray-200">
-                  Education
+                @foreach($article->categories as $cat)
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                  {{ $cat->name }}
                 </span>
+                @if(!$loop->last) @endif
+                @endforeach
               </td>
               <td class="px-3 py-4 whitespace-nowrap">
-                <span
-                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
-                  Publié
+                @php
+                    $statusColors = [
+                        'published' => 'bg-green-100 text-green-800',
+                        'draft' => 'bg-gray-100 text-gray-800',
+                        'archived' => 'bg-red-100 text-red-800',
+                    ];
+                    $statusLabels = [
+                        'published' => 'Publié',
+                        'draft' => 'Brouillon',
+                        'archived' => 'Archivé',
+                    ];
+                    $status = $article->status;
+                    $color = $statusColors[$status] ?? 'bg-gray-100 text-gray-800';
+                    $label = $statusLabels[$status] ?? $status;
+                @endphp
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $color }}">
+                  {{ $label }}
                 </span>
               </td>
-              <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                19 Dec 2025
+              <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{ $article->created_at->format('d M Y') }}
               </td>
               <td class="px-3 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <button
-                  class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800"
-                  data-edit-btn title="Modifier">
-                  <i data-lucide="pencil" class="w-4 h-4 text-gray-600 dark:text-gray-400"></i>
-                </button>
-                <button
-                  class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800"
-                  data-delete-btn title="Supprimer">
-                  <i data-lucide="trash-2" class="w-4 h-4 text-red-600"></i>
-                </button>
+                <a href="{{ route('admin.articles.edit', $article) }}"
+                   class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100"
+                   title="Modifier">
+                  <i data-lucide="pencil" class="w-4 h-4 text-gray-600"></i>
+                </a>
+                <form action="{{ route('admin.articles.destroy', $article) }}" method="POST" class="inline-block" onsubmit="return confirm('Êtes-vous sûr ?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                       class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100"
+                       title="Supprimer">
+                      <i data-lucide="trash-2" class="w-4 h-4 text-red-600"></i>
+                    </button>
+                </form>
               </td>
             </tr>
-            <!-- Row 2 -->
-            <tr class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
-              <td class="px-3 py-4 whitespace-nowrap">
-                <div class="flex items-center gap-3">
-
-                  <div class="text-sm font-medium text-gray-900 dark:text-white">IT-Wave: Celebrating Digital
-                    Innovation...</div>
-                </div>
-              </td>
-              <td class="px-3 py-4 whitespace-nowrap">
-                <div class="flex items-center gap-2">
-                  <div
-                    class="h-6 w-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold">
-                    YH</div>
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Yassine Hajjar</span>
-                </div>
-              </td>
-              <td class="px-3 py-4 whitespace-nowrap">
-                <span
-                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-slate-800 dark:text-gray-200">
-                  Activities
-                </span>
-              </td>
-              <td class="px-3 py-4 whitespace-nowrap">
-                <span
-                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
-                  Publié
-                </span>
-              </td>
-              <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                19 Dec 2025
-              </td>
-              <td class="px-3 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <button
-                  class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800"
-                  data-edit-btn title="Modifier">
-                  <i data-lucide="pencil" class="w-4 h-4 text-gray-600 dark:text-gray-400"></i>
-                </button>
-                <button
-                  class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800"
-                  data-delete-btn title="Supprimer">
-                  <i data-lucide="trash-2" class="w-4 h-4 text-red-600"></i>
-                </button>
-              </td>
+            @empty
+            <tr>
+                <td colspan="6" class="px-3 py-4 text-center text-gray-500">Aucun article trouvé.</td>
             </tr>
+            @endforelse
           </tbody>
         </table>
-        <div id="pagination" class="flex justify-center items-center gap-2 mt-4"></div>
+        <div class="mt-4">
+            {{ $articles->links() }}
+        </div>
       </div>
     </div>
 

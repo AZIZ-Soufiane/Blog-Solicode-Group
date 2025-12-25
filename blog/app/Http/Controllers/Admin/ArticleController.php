@@ -21,9 +21,14 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.articles.index');
+        $filters = $request->only(['search', 'category', 'status']);
+        
+        $articles = $this->articleService->getPaginatedArticles(10, $filters);
+        $categories = Category::all();
+
+        return view('admin.articles.index', compact('articles', 'categories'));
     }
 
     /**

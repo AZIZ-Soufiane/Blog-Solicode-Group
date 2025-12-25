@@ -19,6 +19,34 @@ class ArticleService
     use CommentsTrait;
     use UploadTrait;
 
+    /**
+     * Get paginated articles for admin with filters
+     */
+    public function getPaginatedArticles(int $perPage = 10, array $filters = []): LengthAwarePaginator
+    {
+        $query = Article::with(['user', 'categories', 'tags'])
+            ->withCount('comments');
+
+        // Search by title
+        if (!empty($filters['search'])) {
+            $query->where('title', 'like', '%' . $filters['search'] . '%');
+        }
+
+        // Filter by category
+        if (!empty($filters['category'])) {
+            $query->whereHas('categories', function ($q) use ($filters) {
+                $q->where('slug', $filters['category']);
+            });
+        }
+
+        // Filter by status
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        return $query->latest()->paginate($perPage);
+    }
+
     public function store(array $data): Article
     {
         $imagePath = isset($data['image'])

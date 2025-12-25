@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     // Cache DOM elements
     const publishedEl = document.getElementById("published-articles");
     const viewsEl = document.getElementById("total-views");
@@ -50,18 +50,15 @@ document.addEventListener("DOMContentLoaded", () => {
             <tr class="group hover:bg-white/50 transition-colors rounded-lg">
                 <td class="px-4 py-3 whitespace-nowrap">
                     <div class="flex items-center gap-x-3">
-                        <div class="flex-shrink-0 w-9 h-9 rounded-xl ${
-                            status.iconBg
-                        } flex items-center justify-center">
+                        <div class="flex-shrink-0 w-9 h-9 rounded-xl ${status.iconBg
+            } flex items-center justify-center">
                             <i data-lucide="${status.icon}" class="w-5 h-5"></i>
                         </div>
                         <div class="grow">
-                            <span class="block text-sm font-semibold text-gray-800">${
-                                article.title
-                            }</span>
-                            <span class="block text-xs text-gray-500">Par ${
-                                article.user?.name ?? "Anonyme"
-                            }</span>
+                            <span class="block text-sm font-semibold text-gray-800">${article.title
+            }</span>
+                            <span class="block text-xs text-gray-500">Par ${article.user?.name ?? "Anonyme"
+            }</span>
                         </div>
                     </div>
                 </td>
@@ -69,12 +66,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="text-xs text-gray-500">${date}</span>
                 </td>
                 <td class="px-4 py-3 whitespace-nowrap text-end">
-                    <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium ${
-                        status.bg
-                    }">
-                        <span class="w-1.5 h-1.5 inline-block rounded-full ${
-                            status.dot
-                        }"></span>
+                    <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium ${status.bg
+            }">
+                        <span class="w-1.5 h-1.5 inline-block rounded-full ${status.dot
+            }"></span>
                         ${status.label}
                     </span>
                 </td>
@@ -116,12 +111,11 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Dashboard stats:", data);
 
 
-            // Update KPIs
-            publishedEl.innerText = data.publishedArticles ?? 0;
-            viewsEl.innerText = data.totalViews ?? 0;
-            usersEl.innerText = data.totalUsers ?? 0;
-            commentsEl.innerText = data.totalComments ?? 0;
-            newCommentsEl.innerText = (data.newComments ?? 0) + " nouveaux";
+            if (publishedEl) publishedEl.innerText = data.publishedArticles ?? 0;
+            if (viewsEl) viewsEl.innerText = data.totalViews ?? 0;
+            if (usersEl) usersEl.innerText = data.totalUsers ?? 0;
+            if (commentsEl) commentsEl.innerText = data.totalComments ?? 0;
+            if (newCommentsEl) newCommentsEl.innerText = (data.newComments ?? 0) + " nouveaux";
 
             if (growthEl && data.percentage_growth !== undefined) {
                 const growth = data.percentage_growth;
@@ -147,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     .map(renderActivityItem)
                     .join("");
             }
-     window.createLucideIcons();
+            window.createLucideIcons();
             console.log(window.createIcons);
 
         } catch (err) {

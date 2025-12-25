@@ -30,4 +30,7 @@ trait BaseServiceTrait
     {
         return $query->paginate($perPage)->withQueryString();
     }
+
+
+    
 }

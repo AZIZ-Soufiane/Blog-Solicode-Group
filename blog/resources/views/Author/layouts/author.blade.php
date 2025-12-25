@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin</title>
+    <title>Dashboard Auteur - SolicodeBlog</title>
  
-@vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/dashboard.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
 <body class="bg-white text-gray-900">
 
-    @include('admin.partials.sidebar')
-       {{--  @include('admin.partials.header') --}}
+    @include('author.partials.sidebar')
  
    <main
   id="content"
@@ -22,8 +21,9 @@
         @yield('content')
     </main>
 
-   @stack('scripts')
-   
+    @stack('scripts')
+    
+    @vite('resources/js/authorDashboard.js')
 
 </body> 
 </html>

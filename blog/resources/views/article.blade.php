@@ -35,7 +35,7 @@
         <!-- Cover Image -->
         <figure class="mb-10">
             <img class="w-full object-cover rounded-xl h-96 shadow-sm"
-                src="{{ $article->image ?? 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80' }}"
+                src="{{ $article->image ? (str_starts_with($article->image, 'http') ? $article->image : '/storage/' . $article->image) : 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80' }}"
                 alt="{{ $article->title }}">
         </figure>
 

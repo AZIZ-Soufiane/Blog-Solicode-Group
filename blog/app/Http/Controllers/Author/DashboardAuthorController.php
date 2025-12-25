@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\Author;
 
 use App\Http\Controllers\Controller;
+use App\Services\ArticleService;
 use App\Services\Author\Dashboard\AuthorDashboardStatsService;
 
 class DashboardAuthorController extends Controller
 {
-    protected AuthorDashboardStatsService $stats;
+ protected ArticleService $articles;
 
-    public function __construct(AuthorDashboardStatsService $stats)
-    {
-        $this->stats = $stats;
-    }
+
+
+public function __construct(
+    ArticleService $articles,
+
+) {
+    $this->articles = $articles;
+
+}
 
     public function index(int $userId)
     {
@@ -22,11 +28,11 @@ class DashboardAuthorController extends Controller
     public function stats(int $userId)
     {
         return response()->json([
-            'myArticles' => $this->stats->myArticlesCount($userId),
-            'myPublishedArticles' => $this->stats->myPublishedArticles($userId),
-            'myDraftArticles' => $this->stats->myDraftArticles($userId),
-            'myTotalViews' => $this->stats->myTotalViews($userId),
-            'myRecentActivity' => $this->stats->myRecentActivity($userId, 3),
+            'myArticles' => $this->articles->myArticlesCount($userId),
+            'myPublishedArticles' => $this->articles->myPublishedArticles($userId),
+            'myDraftArticles' => $this->articles->myDraftArticles($userId),
+            'myTotalViews' => $this->articles->myTotalViews($userId),
+            'myRecentActivity' => $this->articles->myRecentActivity($userId, 3),
         ]);
     }
 }

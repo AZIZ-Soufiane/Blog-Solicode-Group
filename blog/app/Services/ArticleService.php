@@ -4,6 +4,9 @@ namespace App\Services;
 
 use App\Models\Article;
 
+use App\Services\Traits\UploadTrait;
+use App\Models\Tag;
+use Illuminate\Support\Str;
 use App\Services\Traits\CommentsTrait;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -14,6 +17,110 @@ class ArticleService
 {
     use BaseServiceTrait;
     use CommentsTrait;
+    use UploadTrait;
+
+    public function store(array $data): Article
+    {
+        $imagePath = isset($data['image'])
+            ? $this->uploadImage($data['image'])
+            : null;
+
+        $article = Article::create([
+            'title'       => $data['title'],
+            'slug'        => $data['slug'] ?? Str::slug($data['title']),
+            'content'     => $data['content'],
+            'image'       => $imagePath,
+            'status'      => $data['status'] ?? 'draft',
+            'is_featured' => !empty($data['is_featured']),
+            'user_id'     => 1, // Sprint 2
+        ]);
+
+        // ✅ Categories (existantes uniquement)
+        if (!empty($data['categories'])) {
+            $article->categories()->attach($data['categories']);
+        }
+
+        // ✅ Tags (existants + nouveaux)
+        if (!empty($data['tags'])) {
+            $tagIds = $this->handleTags($data['tags']);
+            $article->tags()->attach($tagIds);
+        }
+
+        // Upload videos
+        if (!empty($data['videos'])) {
+            $this->uploadVideos($data['videos'], $article);
+        }
+
+        return $article;
+    }
+
+    public function update(Article $article, array $data): Article
+    {
+        if (isset($data['image'])) {
+            $data['image'] = $this->uploadImage($data['image']);
+        } elseif (isset($data['remove_image']) && $data['remove_image'] == '1') {
+            $data['image'] = null;
+        } else {
+            $data['image'] = $article->image;
+        }
+
+        $article->update([
+            'title'       => $data['title'],
+            'slug'        => $data['slug'] ?? $article->slug,
+            'content'     => $data['content'],
+            'image'       => $data['image'],
+            'status'      => $data['status'],
+            'is_featured' => !empty($data['is_featured']),
+        ]);
+
+        // Sync categories
+        if (isset($data['categories'])) {
+            $article->categories()->sync($data['categories']);
+        }
+
+        // Sync tags (avec création si besoin)
+        if (isset($data['tags'])) {
+            $tagIds = $this->handleTags($data['tags']);
+            $article->tags()->sync($tagIds);
+        }
+
+        // Upload videos
+        if (!empty($data['videos'])) {
+            $this->uploadVideos($data['videos'], $article);
+        }
+
+        return $article;
+    }
+
+    /**
+     * Handle existing & new tags
+     */
+    private function handleTags(string|array $tags): array
+    {
+        // Si input text: "Laravel, PHP, Docker"
+        if (is_string($tags)) {
+            $tags = explode(',', $tags);
+        }
+
+        $tagIds = [];
+
+        foreach ($tags as $tagName) {
+            $tagName = trim($tagName);
+
+            if ($tagName === '') {
+                continue;
+            }
+
+            $tag = Tag::firstOrCreate(
+                ['slug' => Str::slug($tagName)],
+                ['name' => $tagName]
+            );
+
+            $tagIds[] = $tag->id;
+        }
+
+        return $tagIds;
+    }
 
     /**
      * Get featured article for homepage
@@ -223,5 +330,95 @@ class ArticleService
      * end :  parte admin dashboard stats
      */
 
+
+
+
+/**
+     * start :  parte admin dashboard Author stats
+     */
+    public function myRecentActivity(int $userId, int $limit = 4): array
+    {
+        $activities = [];
+
+        $articles = Article::where('user_id', $userId)
+            ->with('user')
+            ->latest('updated_at')
+            ->take($limit * 2)
+            ->get();
+
+        foreach ($articles as $article) {
+            if ($article->status === 'draft') {
+                $activities[] = [
+                    'type' => 'draft',
+                    'icon' => 'edit-3',
+                    'color' => 'blue',
+                    'title' => 'Brouillon sauvegardé',
+                    'message' => 'Vous avez modifié "' . $article->title . '".',
+                    'time' => $article->updated_at->diffForHumans(),
+                    'timestamp' => $article->updated_at->timestamp,
+                ];
+            } elseif ($article->status === 'published') {
+                $activities[] = [
+                    'type' => 'published',
+                    'icon' => 'check-circle',
+                    'color' => 'green',
+                    'title' => 'Article validé',
+                    'message' => 'Votre article "' . $article->title . '" a été publié.',
+                    'time' => $article->updated_at->diffForHumans(),
+                    'timestamp' => $article->updated_at->timestamp,
+                ];
+            }
+        }
+
+        usort($activities, fn($a, $b) => $b['timestamp'] - $a['timestamp']);
+
+        return array_slice($activities, 0, $limit);
+    }
+
+        public function myArticlesCount(int $userId): int
+    {
+        return Article::where('user_id', $userId)->count();
+    }
+
+    public function myPublishedArticles(int $userId): int
+    {
+        return Article::where('user_id', $userId)
+            ->where('status', 'published')
+            ->count();
+    }
+
+    public function myDraftArticles(int $userId): int
+    {
+        return Article::where('user_id', $userId)
+            ->where('status', 'draft')
+            ->count();
+    }
+
+    public function myTotalViews(int $userId): string|int
+    {
+        $views = Article::where('user_id', $userId)->sum('view_count');
+
+        if ($views >= 1000000) {
+            return round($views / 1000000, 1) . 'M'; 
+        } elseif ($views >= 1000) {
+            return round($views / 1000, 1) . 'k';   
+        }
+
+        return $views;
+    }
+
+    public function myLatestArticles(int $userId, int $limit = 5): \Illuminate\Database\Eloquent\Collection
+    {
+        return Article::where('user_id', $userId)
+            ->with('user')
+            ->latest()
+            ->take($limit)
+            ->get();
+    }
+
+
+    /**
+     * end :  parte admin dashboard Author stats
+     */
 }
 

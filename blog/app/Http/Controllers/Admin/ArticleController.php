@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
-use App\Services\Admin\Articles\ArticleService;
+use App\Services\ArticleService;
 
 class ArticleController extends Controller
 {

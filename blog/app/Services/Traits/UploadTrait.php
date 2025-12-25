@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\articlesTraits;
+namespace App\Services\Traits;
 
 use App\Models\Video;
 use Illuminate\Support\Facades\Storage;

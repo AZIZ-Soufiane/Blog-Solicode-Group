@@ -4,7 +4,7 @@
     href="{{ route('articles.show', $article) }}">
     <div class="h-40 flex flex-col justify-center items-center bg-blue-600 rounded-t-xl overflow-hidden relative">
         <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            src="{{ $article->image ?? 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}"
+            src="{{ $article->image ? (str_starts_with($article->image, 'http') ? $article->image : '/storage/' . $article->image) : 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}"
             alt="{{ $article->title }}">
         @if($article->categories->isNotEmpty())
             <span

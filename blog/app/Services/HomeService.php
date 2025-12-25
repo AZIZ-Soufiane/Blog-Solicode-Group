@@ -19,7 +19,7 @@ class HomeService
     public function getHomePageData(): array
     {
         $featuredArticle = $this->articleService->getFeaturedArticle();
-        $latestArticles = $this->articleService->getLatestArticles(6);
+        $latestArticles = $this->articleService->getLatestArticles(6, null, true);
 
         return [
             'featuredArticle' => $featuredArticle,

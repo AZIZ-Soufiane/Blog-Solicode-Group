@@ -10,7 +10,7 @@ class Article extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'slug', 'content', 'image', 'status', 'view_count', 'is_featured',
+        'title', 'slug', 'content', 'image', 'status', 'view_count', 'is_featured', 'user_id',
     ];
 
     protected $casts = [
@@ -37,5 +37,10 @@ class Article extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function videos()
+{
+    return $this->hasMany(Video::class);
+}
 }
 

@@ -2,6 +2,7 @@ import './bootstrap';
 
 import "preline";
 import { createIcons, icons } from "lucide";
+import './form.js';
 
 // --- Lucide Icons ---
 const initLucide = () => {

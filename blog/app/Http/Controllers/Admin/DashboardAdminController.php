@@ -3,17 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Services\Admin\Dashboard\DashboardStatsService;
+use App\Services\ArticleService;
+use App\Services\CommentsService;
+use App\Services\UsersService;
 
 class DashboardAdminController extends Controller
 {
-    protected DashboardStatsService $stats;
+ protected ArticleService $articles;
+protected CommentsService $comments;
+protected UsersService $users;
 
-    public function __construct(DashboardStatsService $stats)
-    {
-        $this->stats = $stats;
-  
-    }
+public function __construct(
+    ArticleService $articles,
+    CommentsService $comments,
+    UsersService $users
+) {
+    $this->articles = $articles;
+    $this->comments = $comments;
+    $this->users = $users;
+}
 
     public function index()
     {
@@ -24,14 +32,14 @@ class DashboardAdminController extends Controller
     {
         return response()->json([
            
-            'publishedArticles' => $this->stats->publishedArticles(),
-            'totalViews'        => $this->stats->totalViews(),
-            'totalUsers'        => $this->stats->totalUsers(),
-            'totalComments'     => $this->stats->totalComments(),
-            'newComments'       => $this->stats->newComments(),
-            'latestArticles'    => $this->stats->latestArticles(),
-            'percentage_growth' => $this->stats->thisMonthViewsPercentage(),
-            'recentActivity'    => $this->stats->recentActivity(3),
+            'publishedArticles' => $this->articles->publishedArticles(),
+            'totalViews'        => $this->articles->totalViews(),
+            'totalUsers'        => $this->users->totalUsers(),
+            'totalComments'     => $this->comments->totalComments(),
+            'newComments'       => $this->comments->newComments(),
+            'latestArticles'    => $this->articles->latestArticles(),
+            'percentage_growth' => $this->articles->thisMonthViewsPercentage(),
+            'recentActivity'    => $this->articles->recentActivity(3),
         ]);
     }
 }

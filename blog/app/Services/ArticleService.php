@@ -22,25 +22,21 @@ class ArticleService
             ->latest()
             ->first();
 
-        // If no featured article, just take the latest one
-        if (!$featuredArticle) {
-            $featuredArticle = Article::where('status', 'published')
-                ->withCount('comments')
-                ->latest()
-                ->first();
-        }
-
         return $featuredArticle;
     }
 
     /**
      * Get latest articles for homepage
      */
-    public function getLatestArticles(int $limit = 6, ?int $excludeId = null): Collection
+    public function getLatestArticles(int $limit = 6, ?int $excludeId = null, bool $onlyFeatured = false): Collection
     {
         $query = Article::where('status', 'published')
             ->with(['user', 'tags', 'categories'])
             ->withCount('comments');
+
+        if ($onlyFeatured) {
+            $query->where('is_featured', true);
+        }
 
         if ($excludeId) {
             $query->where('id', '!=', $excludeId);

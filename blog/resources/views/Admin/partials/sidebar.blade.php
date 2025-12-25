@@ -22,14 +22,28 @@
 
                 <!-- Dashboard Icon -->
                 <li>
-                    <a class="group flex items-center gap-x-3.5 py-2.5 px-3 bg-blue-50 text-sm font-semibold text-blue-600 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    <a class="group flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600' }} text-sm rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                         href="{{ route('admin.dashboard') }}">
-                        <i data-lucide="layout-dashboard" class="w-4.5 h-4.5 transition-transform duration-300 group-hover:scale-110"></i>
+                        <i data-lucide="layout-dashboard" class="w-4.5 h-4.5 {{ request()->routeIs('admin.dashboard') ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-600' }} transition-transform duration-300 group-hover:scale-110"></i>
                         Dashboard
                     </a>
                 </li>
 
-    
+                <li class="my-4 mx-2 border-t border-gray-100"></li>
+
+                <!-- Content Label -->
+                <li class="px-3 mb-2 flex items-center justify-between">
+                    <span class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Contenu</span>
+                    <i data-lucide="pen-tool" class="w-3 h-3 text-gray-300"></i>
+                </li>
+
+                <li>
+                    <a class="group flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('admin.articles.*') ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600' }} text-sm rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/10"
+                        href="{{ route('admin.articles.index') }}">
+                        <i data-lucide="file-text" class="w-4.5 h-4.5 {{ request()->routeIs('admin.articles.*') ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-600' }} transition-colors"></i>
+                        Articles
+                    </a>
+                </li>
 
     </div>
 </aside>

@@ -22,4 +22,6 @@
         <p class="text-sm text-gray-500 mt-2">La liste complète des articles sera implémentée.</p>
     </div>
 
+    
+
 @endsection

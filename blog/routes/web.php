@@ -42,6 +42,10 @@ Route::prefix('admin')->group(function () {
     // Update
     Route::put('/articles/{article}', [AdminArticleController::class, 'update'])
         ->name('admin.articles.update');
+
+    // Destroy
+    Route::delete('/articles/{article}', [AdminArticleController::class, 'destroy'])
+        ->name('admin.articles.destroy');
 });
 // Author Dashboard Routes
 Route::get('/author/dashboard/{userId}', [DashboardAuthorController::class, 'index'])

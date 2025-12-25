@@ -18,7 +18,6 @@
   role="main"
   class="w-full min-h-screen pt-10 px-4 sm:px-6 md:px-8 lg:pl-72 bg-gray-50"
 > 
-
         @yield('content')
     </main>
 

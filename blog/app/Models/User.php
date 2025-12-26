@@ -10,7 +10,11 @@ class User extends Authenticatable
     use HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'password', 'avatar', 'bio',
+        'name',
+        'email',
+        'password',
+        'avatar',
+        'bio',
     ];
 
     // Relationships
@@ -27,5 +31,13 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * Check if the user has a specific role.
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->roles()->where('name', $role)->exists();
     }
 }

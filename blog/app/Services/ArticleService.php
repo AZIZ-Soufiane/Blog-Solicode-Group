@@ -3,21 +3,22 @@
 namespace App\Services;
 
 use App\Models\Article;
-
-use App\Services\Traits\UploadTrait;
 use App\Models\Tag;
+
 use Illuminate\Support\Str;
-use App\Services\Traits\CommentsTrait;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use App\Services\Traits\BaseServiceTrait;
 use App\Services\CommentsService;
+use App\Services\UploadService;
 
-class ArticleService
+class ArticleService extends BaseService
 {
-    use BaseServiceTrait;
-    use CommentsTrait;
-    use UploadTrait;
+
+    public function __construct(
+        protected CommentsService $commentsService,
+        protected UploadService $uploadService
+    ) {
+    }
 
     /**
      * Get paginated articles for admin with filters
@@ -44,23 +45,28 @@ class ArticleService
             $query->where('status', $filters['status']);
         }
 
+        // Filter by author
+        if (!empty($filters['user_id'])) {
+            $query->where('user_id', $filters['user_id']);
+        }
+
         return $query->latest()->paginate($perPage);
     }
 
     public function store(array $data): Article
     {
         $imagePath = isset($data['image'])
-            ? $this->uploadImage($data['image'])
+            ? $this->uploadService->uploadImage($data['image'])
             : null;
 
         $article = Article::create([
-            'title'       => $data['title'],
-            'slug'        => $data['slug'] ?? Str::slug($data['title']),
-            'content'     => $data['content'],
-            'image'       => $imagePath,
-            'status'      => $data['status'] ?? 'draft',
+            'title' => $data['title'],
+            'slug' => $data['slug'] ?? Str::slug($data['title']),
+            'content' => $data['content'],
+            'image' => $imagePath,
+            'status' => $data['status'] ?? 'draft',
             'is_featured' => !empty($data['is_featured']),
-            'user_id'     => 1, // Sprint 2
+            'user_id' => auth()->id() ?? 1,
         ]);
 
         // ✅ Categories (existantes uniquement)
@@ -76,7 +82,7 @@ class ArticleService
 
         // Upload videos
         if (!empty($data['videos'])) {
-            $this->uploadVideos($data['videos'], $article);
+            $this->uploadService->uploadVideos($data['videos'], $article);
         }
 
         return $article;
@@ -85,7 +91,7 @@ class ArticleService
     public function update(Article $article, array $data): Article
     {
         if (isset($data['image'])) {
-            $data['image'] = $this->uploadImage($data['image']);
+            $data['image'] = $this->uploadService->uploadImage($data['image']);
         } elseif (isset($data['remove_image']) && $data['remove_image'] == '1') {
             $data['image'] = null;
         } else {
@@ -93,11 +99,11 @@ class ArticleService
         }
 
         $article->update([
-            'title'       => $data['title'],
-            'slug'        => $data['slug'] ?? $article->slug,
-            'content'     => $data['content'],
-            'image'       => $data['image'],
-            'status'      => $data['status'],
+            'title' => $data['title'],
+            'slug' => $data['slug'] ?? $article->slug,
+            'content' => $data['content'],
+            'image' => $data['image'],
+            'status' => $data['status'],
             'is_featured' => !empty($data['is_featured']),
         ]);
 
@@ -114,7 +120,7 @@ class ArticleService
 
         // Upload videos
         if (!empty($data['videos'])) {
-            $this->uploadVideos($data['videos'], $article);
+            $this->uploadService->uploadVideos($data['videos'], $article);
         }
 
         return $article;
@@ -255,7 +261,7 @@ class ArticleService
         }
 
         // Load all relationships
-        $article->load(['user', 'tags', 'categories', 'comments.user']);
+        $article->load(['user', 'tags', 'categories', 'comments.user', 'videos']);
 
         return $article;
     }
@@ -268,7 +274,7 @@ class ArticleService
         $article->increment('view_count');
     }
 
- /**
+    /**
      * start :  parte admin dashboard stats
      */
 
@@ -283,20 +289,22 @@ class ArticleService
                 'message' => 'Vous avez publié "' . $article->title . '".',
                 'user' => $article->user->name ?? 'Auteur inconnu',
                 'time' => $article->created_at->diffForHumans(),
+                'timestamp' => $article->created_at->timestamp,
             ];
         }
 
-        foreach ($this->latestComments($limit) as $comment) {
+        foreach ($this->commentsService->latestComments($limit) as $comment) {
             $activities[] = [
                 'type' => 'comment',
                 'title' => 'Nouveau commentaire',
                 'message' => ($comment->user->name ?? 'Un utilisateur') . ' a commenté "' . ($comment->article->title ?? '') . '".',
                 'user' => $comment->user->name ?? 'Utilisateur inconnu',
                 'time' => $comment->created_at->diffForHumans(),
+                'timestamp' => $comment->created_at->timestamp,
             ];
         }
 
-        usort($activities, fn($a, $b) => strtotime($b['time']) - strtotime($a['time']));
+        usort($activities, fn($a, $b) => $b['timestamp'] - $a['timestamp']);
 
         return array_slice($activities, 0, $limit);
     }
@@ -316,9 +324,9 @@ class ArticleService
         $views = Article::sum('view_count');
 
         if ($views >= 1000000) {
-            $views = round($views / 1000000, 1) . 'M'; 
+            $views = round($views / 1000000, 1) . 'M';
         } elseif ($views >= 1000) {
-            $views = round($views / 1000, 1) . 'k';   
+            $views = round($views / 1000, 1) . 'k';
         }
 
         return $views;
@@ -354,14 +362,14 @@ class ArticleService
             ->get();
     }
 
-/**
+    /**
      * end :  parte admin dashboard stats
      */
 
 
 
 
-/**
+    /**
      * start :  parte admin dashboard Author stats
      */
     public function myRecentActivity(int $userId, int $limit = 4): array
@@ -403,7 +411,7 @@ class ArticleService
         return array_slice($activities, 0, $limit);
     }
 
-        public function myArticlesCount(int $userId): int
+    public function myArticlesCount(int $userId): int
     {
         return Article::where('user_id', $userId)->count();
     }
@@ -427,9 +435,9 @@ class ArticleService
         $views = Article::where('user_id', $userId)->sum('view_count');
 
         if ($views >= 1000000) {
-            return round($views / 1000000, 1) . 'M'; 
+            return round($views / 1000000, 1) . 'M';
         } elseif ($views >= 1000) {
-            return round($views / 1000, 1) . 'k';   
+            return round($views / 1000, 1) . 'k';
         }
 
         return $views;

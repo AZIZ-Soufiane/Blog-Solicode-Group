@@ -1,9 +1,12 @@
-@extends('admin.layouts.admin')
+@extends('author.layouts.author')
 
 @section('content')
 
     <div class="mb-5 flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-gray-800">Modifier l'article: {{ $article->title }}</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Modifier: {{ $article->title }}</h1>
+        <a href="{{ route('author.articles.index') }}" class="text-sm text-blue-600 hover:underline">
+            &larr; Retour
+        </a>
     </div>
 
     @if(session('success'))
@@ -12,9 +15,10 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.articles.update', $article->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('author.articles.update', $article->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+        <!-- Reusing Admin Form Partial for Consistency -->
         @include('admin.articles._form', ['buttonLabel' => 'Mettre à jour'])
     </form>
 

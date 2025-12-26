@@ -1,20 +1,23 @@
 <!-- Sidebar -->
 <aside id="application-sidebar"
     class="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 left-0 bottom-0 z-[60] w-64 bg-white border-r border-gray-200 lg:block lg:translate-x-0 lg:right-auto lg:bottom-0">
-    
+
     <div class="flex flex-col h-full max-h-full">
         <!-- Logo Section -->
-        <div class="px-6 pt-7 pb-4">
-            <a class="flex flex-col gap-y-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20" href="{{ route('admin.dashboard') }}" aria-label="Solicode Blog Admin Dashboard">
-                <img src="{{ asset('images/logosolicode.png') }}" alt="Solicode Logo" class="w-36 h-auto">
-                <span class="text-[11px] font-bold text-blue-500 uppercase tracking-widest pl-1">Blog Admin Dashboard</span>
+        <div class="px-6 pt-7 pb-4 flex justify-center">
+            <a class="flex flex-col items-center gap-y-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                href="{{ route('admin.dashboard') }}" aria-label="Solicode Blog Admin Dashboard">
+                <img src="{{ asset('images/logosolicode.png') }}" alt="Solicode Logo" class="w-32 h-auto">
+                <span class="text-[10px] font-bold text-blue-500 uppercase tracking-widest text-center">Admin
+                    Dashboard</span>
             </a>
         </div>
 
         <!-- Navigation Section -->
-        <nav class="hs-accordion-group p-4 w-full flex flex-col flex-wrap overflow-y-auto scrollbar-y" data-hs-accordion-always-open>
+        <nav class="hs-accordion-group p-4 w-full flex flex-col flex-wrap overflow-y-auto scrollbar-y"
+            data-hs-accordion-always-open>
             <ul class="space-y-1">
-                
+
                 <!-- Main Label -->
                 <li class="px-3 mb-2">
                     <span class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Menu Principal</span>
@@ -24,7 +27,8 @@
                 <li>
                     <a class="group flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600' }} text-sm rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                         href="{{ route('admin.dashboard') }}">
-                        <i data-lucide="layout-dashboard" class="w-4.5 h-4.5 {{ request()->routeIs('admin.dashboard') ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-600' }} transition-transform duration-300 group-hover:scale-110"></i>
+                        <i data-lucide="layout-dashboard"
+                            class="w-4.5 h-4.5 {{ request()->routeIs('admin.dashboard') ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-600' }} transition-transform duration-300 group-hover:scale-110"></i>
                         Dashboard
                     </a>
                 </li>
@@ -40,7 +44,8 @@
                 <li>
                     <a class="group flex items-center gap-x-3.5 py-2.5 px-3 {{ request()->routeIs('admin.articles.*') ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700 font-medium hover:bg-gray-50 hover:text-blue-600' }} text-sm rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/10"
                         href="{{ route('admin.articles.index') }}">
-                        <i data-lucide="file-text" class="w-4.5 h-4.5 {{ request()->routeIs('admin.articles.*') ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-600' }} transition-colors"></i>
+                        <i data-lucide="file-text"
+                            class="w-4.5 h-4.5 {{ request()->routeIs('admin.articles.*') ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-600' }} transition-colors"></i>
                         Articles
                     </a>
                 </li>

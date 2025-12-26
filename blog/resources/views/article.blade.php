@@ -9,10 +9,10 @@
         <!-- Article Header -->
         <div class="mb-8">
             @if($article->categories->isNotEmpty())
-                <span
-                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
+                <a href="{{ route('articles.search', ['category' => $article->categories->first()->slug]) }}"
+                    class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors">
                     {{ $article->categories->first()->name }}
-                </span>
+                </a>
             @endif
             <h1 class="text-3xl font-bold text-gray-900 md:text-4xl lg:text-5xl my-4 font-heading">{{ $article->title }}
             </h1>
@@ -35,7 +35,7 @@
         <!-- Cover Image -->
         <figure class="mb-10">
             <img class="w-full object-cover rounded-xl h-96 shadow-sm"
-                src="{{ $article->image ? (str_starts_with($article->image, 'http') ? $article->image : '/storage/' . $article->image) : 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80' }}"
+                src="{{ Str::startsWith($article->image, 'http') ? $article->image : ($article->image ? Storage::url($article->image) : 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') }}"
                 alt="{{ $article->title }}">
         </figure>
 
@@ -43,6 +43,20 @@
         <div class="prose prose-lg prose-blue prose-img:rounded-xl mx-auto text-gray-700 dark:prose-invert">
             {!! Str::markdown($article->content) !!}
         </div>
+
+        <!-- Videos -->
+        @if($article->videos->isNotEmpty())
+            <div class="mt-8 grid gap-6">
+                @foreach($article->videos as $video)
+                    <div class="rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700">
+                        <video class="w-full" controls preload="metadata">
+                            <source src="{{ Storage::url($video->path) }}" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                    </div>
+                @endforeach
+            </div>
+        @endif
 
         <!-- Tags -->
         <div class="mt-10 flex flex-wrap gap-2">
@@ -54,7 +68,7 @@
             @endforeach
         </div>
 
-        {{-- <!-- Comments Section -->
+        <!-- Comments Section -->
         <div class="mt-12 bg-white border border-gray-200 rounded-xl p-6 sm:p-8 dark:bg-slate-800 dark:border-gray-700">
             <h3 class="text-xl font-semibold text-gray-800 mb-6 dark:text-gray-200">Commentaires
                 ({{ $article->comments->count() }})</h3>
@@ -168,6 +182,6 @@
                     </li>
                 @endforelse
             </ul>
-        </div> --}}
+        </div>
     </main>
 @endsection

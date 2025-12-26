@@ -8,8 +8,8 @@ use App\Services\Traits\CommentsTrait;
 use Illuminate\Support\Collection;
 
 
-class CommentsService {
-    use CommentsTrait;
+class CommentsService
+{
     public function totalComments(): int
     {
         return Comment::count();
@@ -20,5 +20,11 @@ class CommentsService {
         return Comment::where('status', 'pending')->count();
     }
 
-  
+    public function latestComments(int $limit = 5)
+    {
+        return Comment::with('user', 'article')
+            ->latest()
+            ->take($limit)
+            ->get();
+    }
 }

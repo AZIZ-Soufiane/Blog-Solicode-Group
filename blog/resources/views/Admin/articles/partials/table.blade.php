@@ -65,15 +65,13 @@
                        title="Modifier">
                       <i data-lucide="pencil" class="w-4 h-4 text-gray-600"></i>
                     </a>
-                    <form action="{{ route('admin.articles.destroy', $article) }}" method="POST" class="inline-block" onsubmit="return confirm('Êtes-vous sûr ?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                           class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 transition-colors"
-                           title="Supprimer">
-                          <i data-lucide="trash-2" class="w-4 h-4 text-red-600"></i>
-                        </button>
-                    </form>
+                    <button type="button"
+                            data-delete-article="{{ $article->id }}"
+                            data-article-title="{{ $article->title }}"
+                            class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-red-50 transition-colors"
+                            title="Supprimer">
+                      <i data-lucide="trash-2" class="w-4 h-4 text-red-600"></i>
+                    </button>
                 </div>
               </td>
             </tr>

@@ -33,4 +33,25 @@ trait UploadTrait
         }
         return $paths;
     }
+    /**
+     * Supprime une image du stockage
+     */
+    public function deleteImage($path)
+    {
+        if ($path && Storage::disk('public')->exists($path)) {
+            return Storage::disk('public')->delete($path);
+        }
+        return false;
+    }
+
+    /**
+     * Supprime une vidéo du stockage
+     */
+    public function deleteVideo($path)
+    {
+        if ($path && Storage::disk('public')->exists($path)) {
+            return Storage::disk('public')->delete($path);
+        }
+        return false;
+    }
 }

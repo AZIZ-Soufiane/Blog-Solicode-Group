@@ -7,7 +7,7 @@
         <a href="{{ route('admin.articles.create') }}" 
            class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700">
             <i data-lucide="plus" class="w-4 h-4"></i>
-            Nouvel article
+            {{ __('articles.labels.add') }}
         </a>
     </div>
 

@@ -28,7 +28,12 @@ return [
         'categories_required' => 'Veuillez sélectionner au moins une catégorie.',
         'categories_array'    => 'Les catégories doivent être envoyées sous forme de liste.',
         'categories_exists'   => 'Une des catégories sélectionnées est invalide.',
+
+        'video_duplicate_selection' => 'Vous avez sélectionné plusieurs fois la même vidéo.',
+        'video_exists_in_article' => 'La vidéo :name existe déjà dans cet article.',
+
         'error'               => 'Une erreur est survenue lors du traitement de l’article.',
+
     ],
 
 
@@ -42,6 +47,7 @@ return [
         'tags'         => 'Tags',
         'status'       => 'Statut',
         'is_featured'  => 'À la une',
+        'add'          => 'Ajouter',
         'submit_create'=> 'Créer l’article',
         'submit_update'=> 'Mettre à jour l’article',
     ],

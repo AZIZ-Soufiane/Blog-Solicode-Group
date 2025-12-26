@@ -76,11 +76,23 @@
                 <!-- Videos will be listed here by JS -->
             </div>
             
-                @if(isset($article) && $article->videos)
+            <!-- Hidden input for existing videos to delete -->
+            <div id="videos-to-delete-container"></div>
+            
+            @if(isset($article) && $article->videos->isNotEmpty())
                 <div class="mt-4 space-y-2">
+                    <h4 class="text-sm font-semibold text-gray-700 mb-2">Vidéos actuelles :</h4>
                     @foreach($article->videos as $video)
-                        <div class="text-sm text-gray-600">
-                            <i data-lucide="film" class="inline w-4 h-4 mr-1"></i> Vidéo existante
+                        <div class="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 existing-video-item" 
+                             data-video-id="{{ $video->id }}" 
+                             data-original-name="{{ $video->original_name }}">
+                            <div class="flex items-center gap-2 flex-1 min-w-0">
+                                <i data-lucide="film" class="w-4 h-4 text-gray-500 flex-shrink-0"></i>
+                                <span class="text-sm text-gray-700 truncate">{{ $video->original_name ?? basename($video->path) }}</span>
+                            </div>
+                            <button type="button" class="flex-shrink-0 p-1 text-red-600 hover:bg-red-50 rounded transition-colors btn-remove-existing-video" title="Supprimer">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
                         </div>
                     @endforeach
                 </div>
@@ -166,7 +178,7 @@
                     <div class="relative">
                         <!-- We assume tags are passed as a JSON array of names for autocomplete -->
                         <input type="text" id="tags-input" name="tags"
-                               value="{{ old('tags', isset($article) ? $article->tags->pluck('name')->implode(', ') : '') }}"
+                               value="{{ old('tags', isset($article) ? $article->tags->pluck('name')->map(fn($t) => '#' . $t)->implode(', ') : '') }}"
                                class="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
                                placeholder="#Tag1, #Tag2..."
                                data-available-tags="{{ $tags->pluck('name')->toJson() }}">
@@ -207,7 +219,7 @@
                             <!-- Remove Image Button -->
                             <button type="button" id="btn-remove-image" 
                                     class="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-20">
-                                <i data-lucide="x" class="w-4 h-4"></i>
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
                             </button>
                         </div>
 

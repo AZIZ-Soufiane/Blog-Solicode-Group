@@ -28,7 +28,10 @@ trait UploadTrait
         $paths = [];
         foreach ($files as $file) {
             $path = $file->store('videos', 'public'); // stockage dans storage/app/public/videos
-            $article->videos()->create(['path' => $path]); // crée l'enregistrement dans la table videos
+            $article->videos()->create([
+                'path'          => $path,
+                'original_name' => $file->getClientOriginalName(),
+            ]); // crée l'enregistrement dans la table videos
             $paths[] = $path;
         }
         return $paths;

@@ -117,6 +117,11 @@ class ArticleService
             $this->uploadVideos($data['videos'], $article);
         }
 
+        // Remove videos
+        if (!empty($data['remove_videos'])) {
+            $this->removeVideos($data['remove_videos'], $article);
+        }
+
         return $article;
     }
 
@@ -444,9 +449,16 @@ class ArticleService
             ->get();
     }
 
+    private function removeVideos(array $videoIds, Article $article): void
+    {
+        $videos = $article->videos()->whereIn('id', $videoIds)->get();
 
-    /**
-     * end :  parte admin dashboard Author stats
-     */
+        foreach ($videos as $video) {
+            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($video->path)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($video->path);
+            }
+            $video->delete();
+        }
+    }
 }
 

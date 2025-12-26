@@ -34,6 +34,8 @@ class ArticleRequest extends FormRequest
 
             'videos'       => ['nullable', 'array'],
             'videos.*'     => ['file', 'mimes:mp4,webm,ogg,avi,mov,wmv', 'max:512000'],
+            'remove_videos' => ['nullable', 'array'],
+            'remove_videos.*' => ['exists:videos,id'],
 
             'categories'   => ['required', 'array'],
             'categories.*' => ['exists:categories,id'],

@@ -6,7 +6,7 @@
         <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
             <div class="space-y-4">
                 <div>
-                    <label for="title" class="block text-sm font-medium mb-2 text-gray-800">{{ __('articles.labels.title') }}</label>
+                    <label for="title" class="block text-sm font-medium mb-2 text-gray-800">Titre</label>
                     <input type="text" id="title" name="title"
                            value="{{ old('title', $article->title ?? '') }}"
                            class="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 text-gray-800 @error('title') border-red-500 @enderror"
@@ -16,7 +16,7 @@
                     @enderror
                 </div>
                 <div>
-                    <label for="slug" class="block text-sm font-medium mb-2 text-gray-800">{{ __('articles.labels.slug') }}</label>
+                    <label for="slug" class="block text-sm font-medium mb-2 text-gray-800">Slug</label>
                     <input type="text" id="slug" name="slug"
                            value="{{ old('slug', $article->slug ?? '') }}"
                            class="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm bg-gray-50 text-gray-500"
@@ -30,7 +30,7 @@
 
         <!-- Content (CKEditor) -->
         <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
-            <label for="content" class="block text-sm font-medium mb-2 text-gray-800">{{ __('articles.labels.content') }}</label>
+            <label for="content" class="block text-sm font-medium mb-2 text-gray-800">Contenu</label>
             <style>
                 .ck-editor__editable_inline {
                     height: 300px;
@@ -60,7 +60,7 @@
 
         <!-- Video (Full Width in Left Column) -->
         <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
-            <h3 class="font-semibold text-gray-800 mb-4">{{ __('articles.labels.videos') }}</h3>
+            <h3 class="font-semibold text-gray-800 mb-4">Vidéos</h3>
             <label for="dropzone-video"
                     class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-400 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
                 <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -99,19 +99,19 @@
             <h3 class="font-semibold text-gray-800 mb-4">Publication</h3>
             <div class="space-y-4">
                 <div>
-                    <label for="status" class="block text-sm font-medium mb-2 text-gray-800">{{ __('articles.labels.status') }}</label>
+                    <label for="status" class="block text-sm font-medium mb-2 text-gray-800">Statut</label>
                     <select id="status" name="status"
                             class="py-3 px-4 pe-9 block w-full border border-gray-400 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
-                        <option value="draft" {{ old('status', $article->status ?? '') == 'draft' ? 'selected' : '' }}>{{ __('articles.status.draft') }}</option>
-                        <option value="published" {{ old('status', $article->status ?? '') == 'published' ? 'selected' : '' }}>{{ __('articles.status.published') }}</option>
-                        <option value="archived" {{ old('status', $article->status ?? '') == 'archived' ? 'selected' : '' }}>{{ __('articles.status.archived') }}</option>
+                        <option value="draft" {{ old('status', $article->status ?? '') == 'draft' ? 'selected' : '' }}>Brouillon</option>
+                        <option value="published" {{ old('status', $article->status ?? '') == 'published' ? 'selected' : '' }}>Publié</option>
+                        <option value="archived" {{ old('status', $article->status ?? '') == 'archived' ? 'selected' : '' }}>Archivé</option>
                     </select>
                     @error('status')
                     <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
                     @enderror
                 </div>
                 <div class="flex justify-between items-center">
-                    <label for="is_featured" class="text-sm text-gray-500">{{ __('articles.labels.is_featured') }}</label>
+                    <label for="is_featured" class="text-sm text-gray-500">À la une</label>
                     <input type="hidden" name="is_featured" value="0">
                     <input type="checkbox" id="is_featured" name="is_featured" value="1"
                            {{ old('is_featured', $article->is_featured ?? false) ? 'checked' : '' }}
@@ -127,7 +127,7 @@
 
                 <!-- Categories Preline Select -->
                 <div class="relative">
-                    <label for="categories" class="block text-sm font-medium mb-2 text-gray-800">{{ __('articles.labels.categories') }}</label>
+                    <label for="categories" class="block text-sm font-medium mb-2 text-gray-800">Catégories</label>
                     <select id="categories" name="categories[]" multiple="" data-hs-select='{
                         "placeholder": "Sélectionner...",
                         "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
@@ -155,7 +155,7 @@
 
                 <!-- Tags Input -->
                 <div>
-                    <label class="block text-sm font-medium mb-2 text-gray-800">{{ __('articles.labels.tags') }}</label>
+                    <label class="block text-sm font-medium mb-2 text-gray-800">Tags</label>
                     <div class="relative">
                         <!-- We assume tags are passed as a JSON array of names for autocomplete -->
                         <input type="text" id="tags-input" name="tags"
@@ -179,7 +179,7 @@
 
                 <!-- Image de couverture (Inside Taxonomy) -->
                 <div>
-                    <h3 class="font-semibold text-gray-800 mb-4">{{ __('articles.labels.image') }}</h3>
+                    <h3 class="font-semibold text-gray-800 mb-4">Image de couverture</h3>
                     
                     <!-- Hidden input to track if image should be removed -->
                     <input type="hidden" name="remove_image" id="remove_image" value="0">

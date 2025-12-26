@@ -18,11 +18,12 @@
     @endif
 
     <!-- Articles Table -->
+    <!-- Articles Table -->
     <div class="bg-white border border-gray-200 shadow-sm rounded-xl">
-      <div class="p-4 overflow-x-auto">
-        
+      <!-- Header / Filter -->
+      <div class="p-4 border-b border-gray-200 rounded-t-xl">
         <!-- Filter Form -->
-        <form method="GET" action="{{ route('admin.articles.index') }}" class="flex flex-wrap items-center mb-4 gap-4 justify-end">
+        <form id="filterForm" method="GET" action="{{ route('admin.articles.index') }}" class="flex flex-wrap items-center gap-4 justify-end">
           
           <!-- Search -->
           <div class="flex-1 min-w-[200px]">
@@ -42,9 +43,13 @@
                 "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-blue-600\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
                 "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
              }' class="hidden">
-                <option value="">Toutes les catégories</option>
+                <option value="all" data-content="<div class='flex items-center w-full'><span class='text-gray-800'>Toutes les catégories</span></div>">
+                    Toutes les catégories
+                </option>
                 @foreach($categories as $category)
-                    <option value="{{ $category->slug }}" {{ request('category') == $category->slug ? 'selected' : '' }}>
+                    <option value="{{ $category->slug }}" 
+                            {{ request('category') == $category->slug ? 'selected' : '' }}
+                            data-content="<div class='flex items-center w-full'><img class='size-6 rounded-full mr-2' src='{{ $category->image ? Storage::url($category->image) : asset('default-cat.png') }}' alt='{{ $category->name }}'><span class='text-gray-800'>{{ $category->name }}</span></div>">
                         {{ $category->name }}
                     </option>
                 @endforeach
@@ -53,109 +58,136 @@
 
           <!-- Status Dropdown -->
           <div class="relative min-w-[200px]">
-             <select name="status" class="py-3 px-4 pe-9 block w-full border border-gray-400 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
-                <option value="">Tous les statuts</option>
+             <select name="status" data-hs-select='{
+                "placeholder": "Tous les statuts",
+                "toggleTag": "<button type=\"button\"></button>",
+                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-400 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1]",
+                "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
+                "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100",
+                "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-blue-600\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
+                "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+             }' class="hidden">
+                <option value="all" data-content="<div class='flex items-center w-full'><span class='text-gray-800'>Tous les statuts</span></div>">
+                    Tous les statuts
+                </option>
                 <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Publié</option>
                 <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Brouillon</option>
                 <option value="archived" {{ request('status') == 'archived' ? 'selected' : '' }}>Archivé</option>
              </select>
           </div>
-
-          <div>
-              <button type="submit" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                Filtrer
-              </button>
-          </div>
         </form>
+      </div>
 
-        <table id="articlesTable" class="min-w-full divide-y divide-gray-200">
-          <thead>
-            <tr>
-              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ARTICLE</th>
-              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">AUTEUR</th>
-              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CATÉGORIE</th>
-              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">STATUT</th>
-              <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DATE DE CRÉATION</th>
-              <th scope="col" class="px-3 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-100">
-            @forelse($articles as $article)
-            <tr class="hover:bg-gray-50 transition-colors">
-              <td class="px-3 py-4 whitespace-nowrap">
-                <div class="flex items-center gap-3">
-                  <div class="text-sm font-medium text-gray-900">{{ Str::limit($article->title, 40) }}</div>
-                </div>
-              </td>
-              <td class="px-3 py-4 whitespace-nowrap">
-                <div class="flex items-center gap-2">
-                  <div class="h-6 w-6 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center text-xs font-bold">
-                    {{ substr($article->user->name ?? '?', 0, 2) }}
-                  </div>
-                  <span class="text-sm text-gray-600">{{ $article->user->name ?? 'Inconnu' }}</span>
-                </div>
-              </td>
-              <td class="px-3 py-4 whitespace-nowrap">
-                @foreach($article->categories as $cat)
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                  {{ $cat->name }}
-                </span>
-                @if(!$loop->last) @endif
-                @endforeach
-              </td>
-              <td class="px-3 py-4 whitespace-nowrap">
-                @php
-                    $statusColors = [
-                        'published' => 'bg-green-100 text-green-800',
-                        'draft' => 'bg-gray-100 text-gray-800',
-                        'archived' => 'bg-red-100 text-red-800',
-                    ];
-                    $statusLabels = [
-                        'published' => 'Publié',
-                        'draft' => 'Brouillon',
-                        'archived' => 'Archivé',
-                    ];
-                    $status = $article->status;
-                    $color = $statusColors[$status] ?? 'bg-gray-100 text-gray-800';
-                    $label = $statusLabels[$status] ?? $status;
-                @endphp
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $color }}">
-                  {{ $label }}
-                </span>
-              </td>
-              <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ $article->created_at->format('d M Y') }}
-              </td>
-              <td class="px-3 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <a href="{{ route('admin.articles.edit', $article) }}"
-                   class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100"
-                   title="Modifier">
-                  <i data-lucide="pencil" class="w-4 h-4 text-gray-600"></i>
-                </a>
-                <form action="{{ route('admin.articles.destroy', $article) }}" method="POST" class="inline-block" onsubmit="return confirm('Êtes-vous sûr ?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit"
-                       class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100"
-                       title="Supprimer">
-                      <i data-lucide="trash-2" class="w-4 h-4 text-red-600"></i>
-                    </button>
-                </form>
-              </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="6" class="px-3 py-4 text-center text-gray-500">Aucun article trouvé.</td>
-            </tr>
-            @endforelse
-          </tbody>
-        </table>
-        <div class="mt-4">
-            {{ $articles->links() }}
-        </div>
+      <!-- Table Section Container -->
+      <div id="articlesTableContainer">
+          @include('admin.articles.partials.table')
       </div>
     </div>
 
-    
-
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('articleSearch');
+        const categorySelect = document.querySelector('select[name="category"]');
+        const statusSelect = document.querySelector('select[name="status"]');
+        const tableContainer = document.getElementById('articlesTableContainer');
+
+        let timeout = null;
+
+        function fetchArticles(url = "{{ route('admin.articles.index') }}") {
+            const params = new URLSearchParams();
+            if (searchInput.value) params.append('search', searchInput.value);
+            if (categorySelect.value) params.append('category', categorySelect.value);
+            if (statusSelect.value) params.append('status', statusSelect.value);
+
+            // Fetch with params
+            fetch(`${url}?${params.toString()}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                tableContainer.innerHTML = html;
+                window.createLucideIcons(); // Re-init icons
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Event Listeners
+        const filterForm = document.getElementById('filterForm');
+        
+        // Prevent default form submission (enter key)
+        if(filterForm) {
+            filterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                fetchArticles();
+            });
+        }
+
+        searchInput.addEventListener('input', function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                fetchArticles();
+            }, 300);
+        });
+
+        // Use change event for native selects
+        // Preline UI updates the native select value and should trigger change event
+        
+        categorySelect.addEventListener('change', () => {
+             console.log('Category changed');
+             fetchArticles();
+        });
+
+        statusSelect.addEventListener('change', () => {
+             console.log('Status changed');
+             fetchArticles();
+        });
+
+        // Pagination Links
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.pagination a')) {
+                e.preventDefault();
+                const url = e.target.closest('.pagination a').getAttribute('href');
+                if (url) {
+                    fetchArticles(url.split('?')[0]); // fetchArticles appends params, so we pass base URL? 
+                    // No, pagination links usually contain params. 
+                    // We should merge params.
+                    // Actually simplified: Just use the URL from the link, but we want to PERSIST current filters.
+                    // Laravel pagination links usually append current query strings if configured.
+                    // To be safe, we use the Base URL and append our current JS state params.
+                    // Or we extract the page number.
+                    
+                    const urlObj = new URL(url);
+                    const page = urlObj.searchParams.get('page');
+                    
+                    const currentUrl = new URL("{{ route('admin.articles.index') }}");
+                    if (page) {
+                       // We want to fetch with current filters + new page
+                       // We can just append page to our fetch params
+                       const params = new URLSearchParams();
+                        if (searchInput.value) params.append('search', searchInput.value);
+                        if (categorySelect.value) params.append('category', categorySelect.value);
+                        if (statusSelect.value) params.append('status', statusSelect.value);
+                        params.append('page', page);
+                        
+                         fetch(`${currentUrl}?${params.toString()}`, {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => response.text())
+                        .then(html => {
+                            tableContainer.innerHTML = html;
+                            window.createLucideIcons();
+                        });
+                    }
+                }
+            }
+        });
+    });
+</script>
+@endpush

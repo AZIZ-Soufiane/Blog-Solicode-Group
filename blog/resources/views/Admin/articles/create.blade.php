@@ -14,7 +14,7 @@
 
     <form action="{{ route('admin.articles.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @include('admin.articles._form', ['buttonLabel' => __('articles.labels.submit_create')])
+        @include('admin.articles._form', ['buttonLabel' => 'Créer l\'article'])
     </form>
 
 @endsection

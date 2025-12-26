@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
-use App\Services\Admin\Articles\ArticleService;
+use App\Services\ArticleService;
 
 class ArticleController extends Controller
 {
@@ -21,9 +21,26 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.articles.index');
+        $filters = $request->only(['search', 'category', 'status']);
+        
+        // Handle "all" values from dropdowns
+        if (isset($filters['category']) && $filters['category'] === 'all') {
+            unset($filters['category']);
+        }
+        if (isset($filters['status']) && $filters['status'] === 'all') {
+            unset($filters['status']);
+        }
+
+        $articles = $this->articleService->getPaginatedArticles(10, $filters);
+        $categories = Category::all();
+
+        if ($request->ajax()) {
+            return view('admin.articles.partials.table', compact('articles'))->render();
+        }
+
+        return view('admin.articles.index', compact('articles', 'categories'));
     }
 
     /**

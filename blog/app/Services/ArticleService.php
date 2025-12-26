@@ -225,7 +225,7 @@ class ArticleService
     {
         return Article::where('slug', $slug)
             ->where('status', 'published')
-            ->with(['user', 'tags', 'categories', 'comments.user'])
+            ->with(['user', 'tags', 'categories', 'comments.user', 'videos'])
             ->firstOrFail();
     }
 
@@ -255,7 +255,7 @@ class ArticleService
         }
 
         // Load all relationships
-        $article->load(['user', 'tags', 'categories', 'comments.user']);
+        $article->load(['user', 'tags', 'categories', 'comments.user', 'videos']);
 
         return $article;
     }

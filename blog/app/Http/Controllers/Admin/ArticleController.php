@@ -95,8 +95,32 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Article $article)
     {
-        //
+        try {
+            $this->articleService->delete($article);
+
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => __('articles.messages.deleted')
+                ]);
+            }
+
+            return redirect()
+                ->route('admin.articles.index')
+                ->with('success', __('articles.messages.deleted'));
+        } catch (\Exception $e) {
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => __('articles.validation.error') // fallback or generic error
+                ], 500);
+            }
+
+            return redirect()
+                ->route('admin.articles.index')
+                ->with('error', __('articles.validation.error'));
+        }
     }
 }

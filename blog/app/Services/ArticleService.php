@@ -453,6 +453,7 @@ class ArticleService
     {
         $videos = $article->videos()->whereIn('id', $videoIds)->get();
 
+
         foreach ($videos as $video) {
             if (\Illuminate\Support\Facades\Storage::disk('public')->exists($video->path)) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($video->path);
@@ -460,5 +461,39 @@ class ArticleService
             $video->delete();
         }
     }
+
+    /**
+     * Delete an article and its associated resources
+     */
+    public function delete(Article $article): bool
+    {
+        // Delete associated image if exists
+        if ($article->image) {
+            $this->deleteImage($article->image);
+        }
+
+        // Delete associated videos if exists
+        if ($article->videos()->exists()) {
+            foreach ($article->videos as $video) {
+                $this->deleteVideo($video->path);
+                $video->delete();
+            }
+        }
+
+        // Detach relationships
+        $article->categories()->detach();
+        $article->tags()->detach();
+        
+        // Delete comments
+        $article->comments()->delete();
+
+        // Delete the article
+        return $article->delete();
+    }
+
+    /**
+     * end :  parte admin dashboard Author stats
+     */
+
 }
 

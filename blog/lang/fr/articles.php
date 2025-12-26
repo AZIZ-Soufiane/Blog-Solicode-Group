@@ -28,6 +28,7 @@ return [
         'categories_required' => 'Veuillez sélectionner au moins une catégorie.',
         'categories_array'    => 'Les catégories doivent être envoyées sous forme de liste.',
         'categories_exists'   => 'Une des catégories sélectionnées est invalide.',
+        'error'               => 'Une erreur est survenue lors du traitement de l’article.',
     ],
 
 

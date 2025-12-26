@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 toolbar: [
                     'heading', '|',
                     'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
-                    'imageUpload', '|', // Removed insertTable and mediaEmbed
+                    'imageUpload', '|',
                     'undo', 'redo'
                 ]
             })

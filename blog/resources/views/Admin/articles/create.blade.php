@@ -18,3 +18,7 @@
     </form>
 
 @endsection
+
+@push('scripts')
+    @vite('resources/js/form.js')
+@endpush

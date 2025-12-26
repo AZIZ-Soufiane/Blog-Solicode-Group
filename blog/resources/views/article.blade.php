@@ -44,6 +44,23 @@
             {!! Str::markdown($article->content) !!}
         </div>
 
+        <!-- Videos Section -->
+        @if($article->videos->isNotEmpty())
+            <div class="mt-10 space-y-6">
+                <h3 class="text-xl font-bold text-gray-900 border-b pb-2">Vidéos associées</h3>
+                <div class="{{ $article->videos->count() === 1 ? 'flex justify-center' : 'grid grid-cols-1 md:grid-cols-2 gap-6' }}">
+                    @foreach($article->videos as $video)
+                        <div class="rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-black {{ $article->videos->count() === 1 ? 'w-full max-w-2xl' : '' }}">
+                            <video controls class="w-full h-auto aspect-video">
+                                <source src="{{ asset('storage/' . $video->path) }}" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
         <!-- Tags -->
         <div class="mt-10 flex flex-wrap gap-2">
             @foreach($article->tags as $tag)

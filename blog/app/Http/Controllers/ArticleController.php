@@ -20,16 +20,16 @@ class ArticleController extends Controller
         $categoriesMeta = $this->categoryService->getCategoryMeta();
 
         if ($request->ajax()) {
-            return view('partials.articles-list', compact('articles', 'categoriesMeta'));
+            return view('Visitor.partials.articles-list', compact('articles', 'categoriesMeta'));
         }
 
-        return view('search', compact('articles', 'categoriesMeta'));
+        return view('Visitor.search', compact('articles', 'categoriesMeta'));
     }
 
     public function show(Article $article)
     {
         $article = $this->articleService->getArticleForView($article);
 
-        return view('article', compact('article'));
+        return view('Visitor.article', compact('article'));
     }
 }

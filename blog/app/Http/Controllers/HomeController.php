@@ -13,6 +13,6 @@ class HomeController extends Controller
     {
         $data = $this->homeService->getHomePageData();
 
-        return view('home', $data);
+        return view('Visitor.home', $data);
     }
 }

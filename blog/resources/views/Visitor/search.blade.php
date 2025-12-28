@@ -1,4 +1,4 @@
-@extends('layouts.public')
+@extends('Visitor.layouts.public')
 
 @section('title', 'Recherche')
 
@@ -127,7 +127,7 @@
 
     <!-- Results Grid -->
     <div id="articles-container" class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-        @include('partials.articles-list')
+        @include('Visitor.partials.articles-list')
     </div>
 
     @push('scripts')

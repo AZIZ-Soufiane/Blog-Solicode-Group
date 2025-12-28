@@ -1,4 +1,4 @@
-@extends('layouts.public')
+@extends('Visitor.layouts.public')
 
 @section('title', $article->title)
 

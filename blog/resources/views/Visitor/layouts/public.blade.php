@@ -23,13 +23,13 @@
 
 <body class="bg-gray-50 flex flex-col min-h-screen dark:bg-slate-900">
 
-    @include('partials.nav')
+    @include('Visitor.partials.nav')
 
     <main class="flex-grow">
         @yield('content')
     </main>
 
-    @include('partials.footer')
+    @include('Visitor.partials.footer')
 
     @stack('scripts')
 </body>

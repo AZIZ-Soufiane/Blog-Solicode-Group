@@ -1,6 +1,6 @@
 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
     @forelse($articles as $article)
-        @include('partials.article-card', ['article' => $article])
+        @include('Visitor.partials.article-card', ['article' => $article])
     @empty
         <div class="col-span-full text-center py-10">
             <p class="text-gray-500">Aucun article trouvé.</p>
@@ -14,5 +14,5 @@
         Showing <span class="font-medium">{{ $articles->count() }}</span> of <span
             class="font-medium">{{ $articles->total() }}</span> results
     </div>
-    {{ $articles->links('components.pagination') }}
+    {{ $articles->links('Visitor.components.pagination') }}
 </div>

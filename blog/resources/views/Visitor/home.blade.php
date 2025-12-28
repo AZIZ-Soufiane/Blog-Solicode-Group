@@ -1,4 +1,4 @@
-@extends('layouts.public')
+@extends('Visitor.layouts.public')
 
 @section('content')
     <!-- Hero Section -->
@@ -109,7 +109,7 @@
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($latestArticles as $article)
-                @include('partials.article-card', ['article' => $article])
+                @include('Visitor.partials.article-card', ['article' => $article])
             @endforeach
         </div>
 

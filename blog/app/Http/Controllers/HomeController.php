@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ArticleService;
-
 class HomeController extends Controller
 {
     public function __construct(

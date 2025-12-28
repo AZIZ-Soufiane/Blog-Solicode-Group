@@ -2,12 +2,8 @@
 
 namespace App\Services;
 
-use App\Services\Traits\BaseServiceTrait;
-
-class HomeService
+class HomeService extends BaseService
 {
-    use BaseServiceTrait;
-
     public function __construct(
         protected ArticleService $articleService
     ) {

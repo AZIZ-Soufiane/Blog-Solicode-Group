@@ -6,6 +6,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\Author\DashboardAuthorController;
+use App\Http\Controllers\Author\ArticleController as AuthorArticleController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -47,6 +48,7 @@ Route::prefix('admin')->group(function () {
     Route::delete('/articles/{article}', [AdminArticleController::class, 'destroy'])
         ->name('admin.articles.destroy');
 });
+
 // Author Dashboard Routes
 Route::get('/author/dashboard/{userId}', [DashboardAuthorController::class, 'index'])
     ->name('author.dashboard');
@@ -54,3 +56,30 @@ Route::get('/author/dashboard/{userId}', [DashboardAuthorController::class, 'ind
 Route::get('/author/dashboard/{userId}/stats', [DashboardAuthorController::class, 'stats'])
     ->name('author.dashboard.stats');
 
+// Author Article Routes
+Route::prefix('author')->group(function () {
+
+    // List articles
+    Route::get('/articles', [AuthorArticleController::class, 'index'])
+        ->name('author.articles.index');
+
+    // Form create
+    Route::get('/articles/create', [AuthorArticleController::class, 'create'])
+        ->name('author.articles.create');
+
+    // Store
+    Route::post('/articles', [AuthorArticleController::class, 'store'])
+        ->name('author.articles.store');
+
+    // Form edit
+    Route::get('/articles/{article}/edit', [AuthorArticleController::class, 'edit'])
+        ->name('author.articles.edit');
+
+    // Update
+    Route::put('/articles/{article}', [AuthorArticleController::class, 'update'])
+        ->name('author.articles.update');
+
+    // Destroy
+    Route::delete('/articles/{article}', [AuthorArticleController::class, 'destroy'])
+        ->name('author.articles.destroy');
+});

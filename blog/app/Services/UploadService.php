@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services\Traits;
+namespace App\Services;
 
 use App\Models\Video;
 use Illuminate\Support\Facades\Storage;
 
-trait UploadTrait
+class UploadService
 {
     /**
      * Upload d'une image et retourne le chemin
@@ -23,19 +23,22 @@ trait UploadTrait
      */
     public function uploadVideos($files, $article)
     {
-        if (!$files) return null; // si aucune vidéo, ne rien faire
+        if (!$files) {
+            return null; // si aucune vidéo, ne rien faire
+        }
 
         $paths = [];
         foreach ($files as $file) {
             $path = $file->store('videos', 'public'); // stockage dans storage/app/public/videos
             $article->videos()->create([
-                'path'          => $path,
+                'path' => $path,
                 'original_name' => $file->getClientOriginalName(),
             ]); // crée l'enregistrement dans la table videos
             $paths[] = $path;
         }
         return $paths;
     }
+
     /**
      * Supprime une image du stockage
      */

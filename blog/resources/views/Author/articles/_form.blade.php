@@ -213,7 +213,7 @@
                         
                         <div id="image-preview-container" class="absolute inset-0 flex items-center justify-center bg-gray-50 {{ (isset($article) && $article->image) ? '' : 'hidden' }}">
                             @if(isset($article) && $article->image)
-                                    <img src="{{ asset('storage/' . $article->image) }}" alt="Couverture" class="w-full h-full object-cover">
+                                    <img src="{{ Str::startsWith($article->image, 'http') ? $article->image : asset('storage/' . $article->image) }}" alt="Couverture" class="w-full h-full object-cover">
                             @endif
                             
                             <!-- Remove Image Button -->

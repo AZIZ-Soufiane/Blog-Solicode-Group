@@ -25,7 +25,7 @@
         </div>
 
         <h3
-            class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2 mb-2 font-heading">
+            class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2 mb-2 font-heading break-words">
             {{ $article->title }}
         </h3>
 

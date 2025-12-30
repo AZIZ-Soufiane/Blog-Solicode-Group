@@ -14,7 +14,8 @@
                     {{ $article->categories->first()->name }}
                 </a>
             @endif
-            <h1 class="text-3xl font-bold text-gray-900 md:text-4xl lg:text-5xl my-4 font-heading">{{ $article->title }}
+            <h1 class="text-3xl font-bold text-gray-900 md:text-4xl lg:text-5xl my-4 font-heading break-words">
+                {{ $article->title }}
             </h1>
 
             <div class="flex items-center gap-x-4 mt-6">

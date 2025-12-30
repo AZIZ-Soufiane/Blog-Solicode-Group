@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3 class="flex gap-x-1.5 font-semibold text-gray-800">
                         <i data-lucide="${icon}" class="w-4 h-4 text-${color}-600 mt-1"></i> ${activity.title}
                     </h3>
-                    <p class="mt-1 text-sm text-gray-600">${activity.message}</p>
+                    <p class="mt-1 text-sm text-gray-600 break-all">${activity.message}</p>
                     <span class="text-xs text-gray-500">${activity.time}</span>
                 </div>
             </div>

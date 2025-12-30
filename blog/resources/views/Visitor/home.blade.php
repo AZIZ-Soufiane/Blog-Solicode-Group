@@ -42,7 +42,7 @@
                                 </a>
                             </div>
                             <div class="mt-3 sm:mt-0">
-                                <a href="#about"
+                                <a href="#statistics"
                                     class="w-full flex items-center justify-center px-6 py-3 border border-transparent text-sm font-semibold rounded-lg text-blue-700 bg-blue-100 hover:bg-blue-200 md:text-base transition-all">
                                     <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
@@ -72,7 +72,7 @@
     </div>
 
     <!-- Statistics Section -->
-    <div class="bg-blue-900 border-t border-blue-800">
+    <div id="statistics" class="bg-blue-900 border-t border-blue-800">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:py-16 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 gap-4 md:grid-cols-5 text-center">
                 <div>

@@ -76,11 +76,23 @@
                 <!-- Videos will be listed here by JS -->
             </div>
             
-                @if(isset($article) && $article->videos)
+            <!-- Hidden input for existing videos to delete -->
+            <div id="videos-to-delete-container"></div>
+            
+            @if(isset($article) && $article->videos->isNotEmpty())
                 <div class="mt-4 space-y-2">
+                    <h4 class="text-sm font-semibold text-gray-700 mb-2">Vidéos actuelles :</h4>
                     @foreach($article->videos as $video)
-                        <div class="text-sm text-gray-600">
-                            <i data-lucide="film" class="inline w-4 h-4 mr-1"></i> Vidéo existante
+                        <div class="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 existing-video-item" 
+                             data-video-id="{{ $video->id }}" 
+                             data-original-name="{{ $video->original_name }}">
+                            <div class="flex items-center gap-2 flex-1 min-w-0">
+                                <i data-lucide="film" class="w-4 h-4 text-gray-500 flex-shrink-0"></i>
+                                <span class="text-sm text-gray-700 truncate">{{ $video->original_name ?? basename($video->path) }}</span>
+                            </div>
+                            <button type="button" class="flex-shrink-0 p-1 text-red-600 hover:bg-red-50 rounded transition-colors btn-remove-existing-video" title="Supprimer">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
                         </div>
                     @endforeach
                 </div>
@@ -98,13 +110,20 @@
         <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-4 md:p-5">
             <h3 class="font-semibold text-gray-800 mb-4">Publication</h3>
             <div class="space-y-4">
-                <div>
+                <div class="relative">
                     <label for="status" class="block text-sm font-medium mb-2 text-gray-800">Statut</label>
-                    <select id="status" name="status"
-                            class="py-3 px-4 pe-9 block w-full border border-gray-400 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
-                        <option value="draft" {{ old('status', $article->status ?? '') == 'draft' ? 'selected' : '' }}>Brouillon</option>
-                        <option value="published" {{ old('status', $article->status ?? '') == 'published' ? 'selected' : '' }}>Publié</option>
-                        <option value="archived" {{ old('status', $article->status ?? '') == 'archived' ? 'selected' : '' }}>Archivé</option>
+                    <select id="status" name="status" data-hs-select='{
+                        "placeholder": "Sélectionner le statut",
+                        "toggleTag": "<button type=\"button\"></button>",
+                        "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 px-4 pe-9 flex text-nowrap w-full cursor-pointer bg-white border border-gray-400 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1]",
+                        "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
+                        "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100",
+                        "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-blue-600\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
+                        "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+                    }' class="hidden">
+                        <option value="draft" {{ old('status', $article->status ?? 'draft') == 'draft' ? 'selected' : '' }} data-content="<div class='flex items-center w-full'><span class='flex items-center justify-center size-6 mr-2 text-gray-500'><svg class='shrink-0 size-4' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z'/><polyline points='14 2 14 8 20 8'/><path d='M9 15h6'/><path d='M9 11h6'/><path d='M9 19h6'/></svg></span><span class='text-gray-800'>Brouillon</span></div>">Brouillon</option>
+                        <option value="published" {{ old('status', $article->status ?? '') == 'published' ? 'selected' : '' }} data-content="<div class='flex items-center w-full'><span class='flex items-center justify-center size-6 mr-2 text-green-600'><svg class='shrink-0 size-4' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z'/><path d='m9 12 2 2 4-4'/></svg></span><span class='text-gray-800'>Publié</span></div>">Publié</option>
+                        <option value="archived" {{ old('status', $article->status ?? '') == 'archived' ? 'selected' : '' }} data-content="<div class='flex items-center w-full'><span class='flex items-center justify-center size-6 mr-2 text-orange-500'><svg class='shrink-0 size-4' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect width='20' height='5' x='2' y='3' rx='1'/><path d='M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8'/><path d='M10 12h4'/></svg></span><span class='text-gray-800'>Archivé</span></div>">Archivé</option>
                     </select>
                     @error('status')
                     <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
@@ -159,7 +178,7 @@
                     <div class="relative">
                         <!-- We assume tags are passed as a JSON array of names for autocomplete -->
                         <input type="text" id="tags-input" name="tags"
-                               value="{{ old('tags', isset($article) ? $article->tags->pluck('name')->implode(', ') : '') }}"
+                               value="{{ old('tags', isset($article) ? $article->tags->pluck('name')->map(fn($t) => '#' . $t)->implode(', ') : '') }}"
                                class="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
                                placeholder="#Tag1, #Tag2..."
                                data-available-tags="{{ $tags->pluck('name')->toJson() }}">
@@ -200,7 +219,7 @@
                             <!-- Remove Image Button -->
                             <button type="button" id="btn-remove-image" 
                                     class="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-20">
-                                <i data-lucide="x" class="w-4 h-4"></i>
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
                             </button>
                         </div>
 
@@ -218,7 +237,7 @@
 </div>
 
 <!-- Bottom Action Button -->
-<div class="mt-6 flex justify-start">
+<div class="mt-6 mb-10 flex justify-start">
     <button type="submit"
             class="py-3 px-6 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
         {{ $buttonLabel ?? 'Enregistrer' }}

@@ -7,15 +7,22 @@
         <a href="{{ route('admin.articles.create') }}" 
            class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700">
             <i data-lucide="plus" class="w-4 h-4"></i>
-            Nouvel article
+            {{ __('articles.labels.add') }}
         </a>
     </div>
 
-    @if(session('success'))
-        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ session('success') }}</span>
-        </div>
-    @endif
+    <div id="alert-container">
+        @if(session('success'))
+            <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
+    </div>
 
     <!-- Articles Table -->
     <!-- Articles Table -->
@@ -185,6 +192,79 @@
                             window.createLucideIcons();
                         });
                     }
+                }
+            }
+        });
+
+        // Helper to show dynamic alerts
+        function showAlert(message, type = 'success') {
+            const container = document.getElementById('alert-container');
+            const colorClass = type === 'success' ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700';
+            
+            const alertHtml = `
+                <div class="mb-4 ${colorClass} px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">${message}</span>
+                </div>
+            `;
+            
+            container.innerHTML = alertHtml;
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // Delete Article Handler
+        document.addEventListener('click', function(e) {
+            const deleteBtn = e.target.closest('[data-delete-article]');
+            if (deleteBtn) {
+                e.preventDefault();
+                
+                const articleId = deleteBtn.getAttribute('data-delete-article');
+                const articleTitle = deleteBtn.getAttribute('data-article-title');
+                
+                if (confirm(`Êtes-vous sûr de vouloir supprimer l'article "${articleTitle}" ?`)) {
+                    // Get CSRF token from meta tag
+                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    
+                    fetch(`{{ route('admin.articles.index') }}/${articleId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': token,
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Remove the table row
+                            const row = deleteBtn.closest('tr');
+                            if (row) {
+                                row.style.transition = 'opacity 0.3s';
+                                row.style.opacity = '0';
+                                setTimeout(() => {
+                                    row.remove();
+                                    
+                                    // Check if table is empty
+                                    const tbody = document.querySelector('#articlesTable tbody');
+                                    if (tbody && tbody.querySelectorAll('tr').length === 0) {
+                                        tbody.innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">Aucun article trouvé.</td></tr>';
+                                    }
+                                }, 300);
+                            }
+                            
+                            // Show dynamic success message from lang
+                            showAlert(data.message, 'success');
+                        } else {
+                            showAlert(data.message || 'Erreur lors de la suppression.', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showAlert('Une erreur est survenue lors de la suppression.', 'error');
+                    });
                 }
             }
         });

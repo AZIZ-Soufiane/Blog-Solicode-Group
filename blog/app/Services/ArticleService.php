@@ -117,6 +117,11 @@ class ArticleService
             $this->uploadVideos($data['videos'], $article);
         }
 
+        // Remove videos
+        if (!empty($data['remove_videos'])) {
+            $this->removeVideos($data['remove_videos'], $article);
+        }
+
         return $article;
     }
 
@@ -225,7 +230,7 @@ class ArticleService
     {
         return Article::where('slug', $slug)
             ->where('status', 'published')
-            ->with(['user', 'tags', 'categories', 'comments.user'])
+            ->with(['user', 'tags', 'categories', 'comments.user', 'videos'])
             ->firstOrFail();
     }
 
@@ -255,7 +260,7 @@ class ArticleService
         }
 
         // Load all relationships
-        $article->load(['user', 'tags', 'categories', 'comments.user']);
+        $article->load(['user', 'tags', 'categories', 'comments.user', 'videos']);
 
         return $article;
     }
@@ -444,9 +449,51 @@ class ArticleService
             ->get();
     }
 
+    private function removeVideos(array $videoIds, Article $article): void
+    {
+        $videos = $article->videos()->whereIn('id', $videoIds)->get();
+
+
+        foreach ($videos as $video) {
+            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($video->path)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($video->path);
+            }
+            $video->delete();
+        }
+    }
+
+    /**
+     * Delete an article and its associated resources
+     */
+    public function delete(Article $article): bool
+    {
+        // Delete associated image if exists
+        if ($article->image) {
+            $this->deleteImage($article->image);
+        }
+
+        // Delete associated videos if exists
+        if ($article->videos()->exists()) {
+            foreach ($article->videos as $video) {
+                $this->deleteVideo($video->path);
+                $video->delete();
+            }
+        }
+
+        // Detach relationships
+        $article->categories()->detach();
+        $article->tags()->detach();
+        
+        // Delete comments
+        $article->comments()->delete();
+
+        // Delete the article
+        return $article->delete();
+    }
 
     /**
      * end :  parte admin dashboard Author stats
      */
+
 }
 

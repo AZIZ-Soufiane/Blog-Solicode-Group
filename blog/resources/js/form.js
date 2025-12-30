@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 toolbar: [
                     'heading', '|',
                     'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
-                    'imageUpload', '|', // Removed insertTable and mediaEmbed
+                    'imageUpload', '|',
                     'undo', 'redo'
                 ]
             })
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const deleteBtn = document.createElement('button');
             deleteBtn.type = 'button';
             deleteBtn.className = 'flex-shrink-0 p-1 text-red-600 hover:bg-red-50 rounded transition-colors';
-            deleteBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+            deleteBtn.innerHTML = '<i data-lucide="trash-2" class="w-4 h-4"></i>';
             deleteBtn.setAttribute('data-index', index);
             deleteBtn.addEventListener('click', function () {
                 removeVideoFile(parseInt(this.getAttribute('data-index')));
@@ -133,8 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Reinitialize Lucide icons for the new elements
-        if (window.lucide) {
-            window.lucide.createIcons();
+        if (window.createLucideIcons) {
+            window.createLucideIcons();
         }
     }
 
@@ -174,15 +174,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 const file = this.files[i];
                 // Check if file is already in the list to avoid duplicates
                 let exists = false;
-                for (let j = 0; j < videoDataTransfer.items.length; j++) {
-                    if (videoDataTransfer.items[j].getAsFile().name === file.name &&
-                        videoDataTransfer.items[j].getAsFile().size === file.size) {
-                        exists = true;
-                        break;
-                    }
+                const currentFiles = Array.from(videoDataTransfer.files);
+
+                // 1. Check against new selection
+                if (currentFiles.some(f => f.name === file.name && f.size === file.size)) {
+                    exists = true;
                 }
+
+                // 2. Check against uploaded videos (by name)
+                const existingVideos = document.querySelectorAll('.existing-video-item');
+                existingVideos.forEach(item => {
+                    const originalName = item.getAttribute('data-original-name');
+                    if (originalName === file.name && !item.classList.contains('hidden')) {
+                        exists = true;
+                    }
+                });
+
                 if (!exists) {
                     videoDataTransfer.items.add(file);
+                } else {
+                    alert('Vidéo déjà existe : ' + file.name);
                 }
             }
 
@@ -213,8 +224,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         previewContainer.innerHTML = `
                             <img src="${event.target.result}" alt="Aperçu" class="w-full h-full object-cover">
                             <button type="button" id="btn-remove-image" 
-                                    class="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full transition-opacity z-20">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    class="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full transition-opacity z-20"
+                                    title="Supprimer">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
                             </button>
                         `;
 
@@ -228,6 +240,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Reset removal flag
                     if (removeImageInput) {
                         removeImageInput.value = "0";
+                    }
+
+                    // Reinitialize Lucide icons
+                    if (window.createLucideIcons) {
+                        window.createLucideIcons();
                     }
                 }
                 reader.readAsDataURL(file);
@@ -352,4 +369,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // === Existing Video Removal ===
+    const existingVideoButtons = document.querySelectorAll('.btn-remove-existing-video');
+    const deleteContainer = document.getElementById('videos-to-delete-container');
+
+    existingVideoButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const item = this.closest('.existing-video-item');
+            const videoId = item.dataset.videoId;
+
+            // Add hidden input to form
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'remove_videos[]';
+            input.value = videoId;
+            deleteContainer.appendChild(input);
+
+            // Hide the item from view
+            item.classList.add('hidden');
+        });
+    });
 });

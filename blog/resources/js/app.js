@@ -3,6 +3,8 @@ import "preline";
 import { createIcons, icons } from "lucide";
 import './form.js';
 
+import { initScrollToTop } from './scroll-to-top.js';
+
 const initLucide = () => {
     createIcons({ icons });
 };
@@ -11,6 +13,7 @@ window.createLucideIcons = initLucide;
 
 document.addEventListener("DOMContentLoaded", () => {
     initLucide();
+    initScrollToTop();
 
     // Re-init icons when Preline updates DOM (e.g. tabs, accordion)
     document.addEventListener("preline:ready", initLucide);

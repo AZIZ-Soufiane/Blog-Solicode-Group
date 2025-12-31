@@ -29,7 +29,8 @@ class ArticleController extends Controller
     public function show(Article $article)
     {
         $article = $this->articleService->getArticleForView($article);
+        $relatedArticles = $this->articleService->getRelatedArticlesByCategory($article, 3);
 
-        return view('Visitor.article', compact('article'));
+        return view('Visitor.article', compact('article', 'relatedArticles'));
     }
 }

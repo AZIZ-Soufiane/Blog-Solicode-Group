@@ -498,5 +498,30 @@ class ArticleService extends BaseService
      * end :  parte admin dashboard Author stats
      */
 
+    /**
+     * Get related articles by category
+     * Returns articles from the same category as the given article, excluding the article itself
+     */
+    public function getRelatedArticlesByCategory(Article $article, int $limit = 3): Collection
+    {
+        // Get the first category of the article
+        $category = $article->categories->first();
+
+        if (!$category) {
+            return collect([]);
+        }
+
+        return Article::where('status', 'published')
+            ->where('id', '!=', $article->id)
+            ->whereHas('categories', function ($q) use ($category) {
+                $q->where('categories.id', $category->id);
+            })
+            ->with(['user', 'tags', 'categories'])
+            ->withCount('comments')
+            ->latest()
+            ->take($limit)
+            ->get();
+    }
+
 }
 

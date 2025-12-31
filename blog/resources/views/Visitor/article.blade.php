@@ -185,4 +185,22 @@
             </ul>
         </div>
     </main>
+
+    <!-- Read More Section (Outside main container for wider layout) -->
+    @if($relatedArticles->isNotEmpty())
+        <div class="bg-gray-50 border-y border-gray-200 dark:bg-slate-900/50 dark:border-gray-800">
+            <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+                <div class="max-w-2xl mb-10">
+                    <h2 class="text-2xl font-bold md:text-3xl dark:text-white">Lire aussi</h2>
+                    <p class="mt-1 text-gray-600 dark:text-gray-400">Articles de la même catégorie</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($relatedArticles as $relatedArticle)
+                        @include('Visitor.partials.article-card', ['article' => $relatedArticle])
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection

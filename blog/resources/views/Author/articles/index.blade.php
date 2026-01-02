@@ -1,10 +1,10 @@
-@extends('admin.layouts.admin')
+@extends('author.layouts.author')
 
 @section('content')
 
     <div class="mb-5 flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-gray-800">Liste des articles</h1>
-        <a href="{{ route('admin.articles.create') }}"
+        <h1 class="text-2xl font-bold text-gray-800">Mes articles</h1>
+        <a href="{{ route('author.articles.create') }}"
             class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700">
             <i data-lucide="plus" class="w-4 h-4"></i>
             {{ __('articles.labels.add') }}
@@ -25,12 +25,11 @@
     </div>
 
     <!-- Articles Table -->
-    <!-- Articles Table -->
     <div class="bg-white border border-gray-200 shadow-sm rounded-xl">
         <!-- Header / Filter -->
         <div class="p-4 border-b border-gray-200 rounded-t-xl">
             <!-- Filter Form -->
-            <form id="filterForm" method="GET" action="{{ route('admin.articles.index') }}"
+            <form id="filterForm" method="GET" action="{{ route('author.articles.index') }}"
                 class="flex flex-wrap items-center gap-4 justify-end">
 
                 <!-- Search -->
@@ -90,7 +89,7 @@
 
         <!-- Table Section Container -->
         <div id="articlesTableContainer">
-            @include('admin.articles.partials.table')
+            @include('author.articles.partials.table')
         </div>
     </div>
 
@@ -106,7 +105,7 @@
 
             let timeout = null;
 
-            function fetchArticles(url = "{{ route('admin.articles.index') }}") {
+            function fetchArticles(url = "{{ route('author.articles.index') }}") {
                 const params = new URLSearchParams();
                 if (searchInput.value) params.append('search', searchInput.value);
                 if (categorySelect.value) params.append('category', categorySelect.value);
@@ -144,16 +143,11 @@
                 }, 300);
             });
 
-            // Use change event for native selects
-            // Preline UI updates the native select value and should trigger change event
-
             categorySelect.addEventListener('change', () => {
-                console.log('Category changed');
                 fetchArticles();
             });
 
             statusSelect.addEventListener('change', () => {
-                console.log('Status changed');
                 fetchArticles();
             });
 
@@ -163,21 +157,11 @@
                     e.preventDefault();
                     const url = e.target.closest('.pagination a').getAttribute('href');
                     if (url) {
-                        fetchArticles(url.split('?')[0]); // fetchArticles appends params, so we pass base URL? 
-                        // No, pagination links usually contain params. 
-                        // We should merge params.
-                        // Actually simplified: Just use the URL from the link, but we want to PERSIST current filters.
-                        // Laravel pagination links usually append current query strings if configured.
-                        // To be safe, we use the Base URL and append our current JS state params.
-                        // Or we extract the page number.
-
                         const urlObj = new URL(url);
                         const page = urlObj.searchParams.get('page');
 
-                        const currentUrl = new URL("{{ route('admin.articles.index') }}");
+                        const currentUrl = new URL("{{ route('author.articles.index') }}");
                         if (page) {
-                            // We want to fetch with current filters + new page
-                            // We can just append page to our fetch params
                             const params = new URLSearchParams();
                             if (searchInput.value) params.append('search', searchInput.value);
                             if (categorySelect.value) params.append('category', categorySelect.value);
@@ -231,7 +215,7 @@
                         // Get CSRF token from meta tag
                         const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                        fetch(`{{ route('admin.articles.index') }}/${articleId}`, {
+                        fetch(`{{ route('author.articles.index') }}/${articleId}`, {
                             method: 'DELETE',
                             headers: {
                                 'X-CSRF-TOKEN': token,

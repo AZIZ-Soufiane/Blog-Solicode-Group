@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ArticleService;
-
 class HomeController extends Controller
 {
     public function __construct(
@@ -15,6 +13,6 @@ class HomeController extends Controller
     {
         $data = $this->homeService->getHomePageData();
 
-        return view('home', $data);
+        return view('Visitor.home', $data);
     }
 }

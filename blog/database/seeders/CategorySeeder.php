@@ -24,7 +24,7 @@ class CategorySeeder extends Seeder
         $headers = fgetcsv($file); // Skip headers
 
         while (($row = fgetcsv($file)) !== false) {
-            [$name, $slug, $description, $image, $created_at, $updated_at] = $row;
+            [$name, $slug, $description, $icon, $color, $bg_color, $created_at, $updated_at] = $row;
 
             // Generate slug if missing
             if (empty($slug)) {
@@ -37,7 +37,9 @@ class CategorySeeder extends Seeder
                 [
                     'name' => $name,
                     'description' => $description,
-                    'image' => $image,
+                    'icon' => $icon,
+                    'color' => $color,
+                    'bg_color' => $bg_color,
                     'created_at' => $created_at,
                     'updated_at' => now(),
                 ]

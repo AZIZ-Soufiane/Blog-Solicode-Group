@@ -4,11 +4,8 @@ namespace App\Services;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
-use App\Services\Traits\BaseServiceTrait;
-
-class CategoryService
+class CategoryService extends BaseService
 {
-    use BaseServiceTrait;
 
 
     public function getCategories(): Collection
@@ -23,15 +20,10 @@ class CategoryService
         return $query->get();
     }
 
-    public function getCategoryMeta(): array
+    public function getCategoryMeta(): Collection
     {
-        return [
-            'laravel' => ['color' => 'text-red-500'],
-            'php' => ['color' => 'text-indigo-500'],
-            'android' => ['color' => 'text-green-500'],
-            'design' => ['color' => 'text-pink-500'],
-            'education' => ['color' => 'text-amber-500'],
-            'activities' => ['color' => 'text-cyan-500']
-        ];
+        return $this->getCategories();
     }
+
+
 }

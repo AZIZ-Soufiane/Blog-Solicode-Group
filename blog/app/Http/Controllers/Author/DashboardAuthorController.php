@@ -4,21 +4,20 @@ namespace App\Http\Controllers\Author;
 
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService;
-use App\Services\Author\Dashboard\AuthorDashboardStatsService;
 
 class DashboardAuthorController extends Controller
 {
- protected ArticleService $articles;
+    protected ArticleService $articles;
 
 
 
-public function __construct(
-    ArticleService $articles,
+    public function __construct(
+        ArticleService $articles,
 
-) {
-    $this->articles = $articles;
+    ) {
+        $this->articles = $articles;
 
-}
+    }
 
     public function index(int $userId)
     {
